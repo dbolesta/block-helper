@@ -1,0 +1,108 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* main */
+.main-container {
+  background-color: dimgray;
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
+}
+
+/* control panel */
+.panel {
+  background-color: bisque;
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+}
+.get-code {
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+.code-text-area {
+  width: 100%;
+  margin-top: 10px;
+  font-family: monospace;
+}
+
+.clear-selected {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* grid */
+.grid {
+  background-color: blanchedalmond;
+  flex: 6;
+}
+
+.grid-container {
+  display: grid;
+  background-color: #c7f0d8;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . .';
+}
+
+.grid-container span {
+  position: relative;
+  flex-basis: calc(33.333% - 10px);
+  /* border: 1px solid #43523d; */
+  box-sizing: border-box;
+
+  display: flex; /* added for centered text */
+  justify-content: center; /* added for centered text */
+  align-items: center; /* added for centered text */
+  color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 10px;
+  user-select: none;
+}
+
+.grid-container span::before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.grid-container span:hover {
+  /* background-color: yellow; */
+  background-color: rgba(67, 82, 61, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.grid-container span.snake-enter {
+  color: rgba(174, 0, 255, 1) !important;
+  font-weight: 800;
+}
+
+.grid-container span.selected {
+  background-color: rgb(67, 82, 61);
+  color: rgba(255, 255, 255, 0.4);
+}
