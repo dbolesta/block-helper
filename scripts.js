@@ -48,15 +48,16 @@ function toggleSelected(e){
 
 function toggleSelectedIfDown(e){
    if (down)
-      e.target.classList.toggle("selected");
+      e.target.classList.add("selected");
 }
+
 
 
 function getTheCode(){
    let comment = `//`;
    let name = codeNameEl.value;
    if (name == '') name = 'noName';
-   let code = `private List<Vector2> ${name} = new List<Vector2> {`;
+   let code = `{"${name}", new List<string> {`;
 
    let vectorArray = [];
 
@@ -75,7 +76,7 @@ function getTheCode(){
 
 
       if (box.classList.contains("selected")){
-         vectorArray.push(`new Vector2(${boxX}, ${boxY})`);
+         vectorArray.push(`"${boxX},${boxY}"`);
          comment += `⬛`;
 
       } else {
@@ -92,7 +93,7 @@ function getTheCode(){
       }
    }
 
-   code += `};`;
+   code += `}\n\t\t},`;
 
    console.log(comment);
    codeBoxEl.value = `${comment}\n\n${code}`;
@@ -112,20 +113,32 @@ function getTheCode(){
 // util
 ////////////////////
 function generateSpans(){
-   let xMin = -7;
-   let xMax = 6;
-   let yMin = -3;
-   let yMax = 6;
+   let xMin = 0;
+   let xMax = 20;
+   let yMin = 0;
+   let yMax = 9;
 
    let html = '';
 
    // important that we loop y first
-   for (let y = yMax; y >= yMin; y--){
+   for (let y = yMin; y <= yMax; y++){
       for (let x = xMin; x <= xMax; x++){
             html += `<span data-x="${x}" data-y="${y}">${x},${y}</span>`;
       }
    }
-
-   // return html;
+   
    console.log(html);
+
+   // ${str.repeat(27)}
+   // return html;
+   // .slice(0, -1)
+   // class="snake-enter"
+   let dot = '. ';
+   let gridArea = `'` + dot.repeat(xMax + 1).slice(0, -1) + `'\n`;
+   
+   console.log(
+`grid-template-columns: repeat(${xMax + 1}, 1fr);
+grid-template-rows: repeat(${yMax + 1}, 1fr);
+grid-template-areas: 
+${gridArea.repeat(yMax + 1)};`);
 }
