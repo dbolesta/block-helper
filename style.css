@@ -20,7 +20,7 @@ textarea {
 /* control panel */
 .panel {
   background-color: bisque;
-  flex: 4;
+  flex: 2;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -44,6 +44,37 @@ textarea {
 }
 
 /* grid */
+/* obejct selectors */
+.object-selectors {
+  /* border: 1px solid black; */
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  margin: 0.25rem 0;
+}
+.object-selector {
+  background-color: white;
+  padding: 1rem;
+  margin: 0 1rem;
+  vertical-align: top;
+  border: 4px solid white;
+  cursor: pointer;
+}
+.object-selector:hover {
+  border: 4px solid rgba(0, 0, 255, 0.5);
+}
+.object-selector.selected {
+  border: 4px solid rgba(0, 0, 255, 1);
+}
+.object-selector img {
+  width: 40px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* readl grid */
 .grid {
   background-color: blanchedalmond;
   flex: 6;
@@ -52,19 +83,22 @@ textarea {
 .grid-container {
   display: grid;
   background-color: #c7f0d8;
-  grid-template-columns: repeat(21, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(28, 1fr);
+  grid-template-rows: repeat(13, 1fr);
   grid-template-areas:
-    '. . . . . . . . . . . . . . . . . . . . .'
-    '. . . . . . . . . . . . . . . . . . . . .'
-    '. . . . . . . . . . . . . . . . . . . . .'
-    '. . . . . . . . . . . . . . . . . . . . .'
-    '. . . . . . . . . . . . . . . . . . . . .'
-    '. . . . . . . . . . . . . . . . . . . . .'
-    '. . . . . . . . . . . . . . . . . . . . .'
-    '. . . . . . . . . . . . . . . . . . . . .'
-    '. . . . . . . . . . . . . . . . . . . . .'
-    '. . . . . . . . . . . . . . . . . . . . .';
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .'
+    '. . . . . . . . . . . . . . . . . . . . . . . . . . . .';
   gap: 0px 0px;
 }
 
@@ -90,18 +124,27 @@ textarea {
   padding-top: 100%;
 }
 
-.grid-container span:hover {
-  /* background-color: yellow; */
+/* hovering */
+.grid-container[data-paint-state='block'] span:hover {
   background-color: rgba(67, 82, 61, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
+.grid-container[data-paint-state='food'] span:hover {
+  background-color: rgba(230, 231, 146, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* selected */
+.grid-container span[data-paint-state='block'].selected {
+  background-color: rgb(67, 82, 61);
+  color: rgba(255, 255, 255, 0.4);
+}
+.grid-container span[data-paint-state='food'].selected {
+  background-color: #e8d15d;
   color: rgba(255, 255, 255, 0.4);
 }
 
 .grid-container span.snake-enter {
   color: rgba(174, 0, 255, 1) !important;
   font-weight: 800;
-}
-
-.grid-container span.selected {
-  background-color: rgb(67, 82, 61);
-  color: rgba(255, 255, 255, 0.4);
 }
