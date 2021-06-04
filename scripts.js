@@ -38,16 +38,41 @@ objectSelectors.forEach(obj => {
 document.addEventListener('mousedown', () => down = true);
 document.addEventListener('mouseup', () => down = false);
 
+// remove bigblock-ongrid img
+// gridContainer.addEventListener('click',function(e){
+//    console.log(e.target.classList);
+   
+//    if(e.target.classList.contains("bigblock-ongrid")){
+//          console.log(e.target.parentElement);
+         
+//     }
+// });
+
+
+
+function removeBigBlock(e){
+   console.log(e);
+   let parent = e.currentTarget.parentElement;
+   parent.classList.remove("selected");
+   parent.removeAttribute("data-paint-state");
+   let resetHTML = `${parent.dataset.x},${parent.dataset.y}`;
+   parent.innerHTML = resetHTML;
+}
+
 
 // functions
 ////////////////////
+// change paint brush
 function handleObjectSelect(e){
    let el = e.currentTarget;
+
+   // update selection indicator (blow box)
    objectSelectors.forEach(obj => {
       obj.classList.remove("selected");
    });
    el.classList.add("selected");
 
+   // update paintstate
    paintState = el.dataset.paintState;
    gridContainer.dataset.paintState = paintState;
 
@@ -65,10 +90,18 @@ function clearSelected(){
 
 function toggleSelected(e){
    let el = e.target;
+
+   // cancel if bigblock clicked
+   if (el.classList.contains("bigblock-ongrid")) return;
+
    if (el.classList.contains("selected")){
       el.classList.remove("selected");
       el.removeAttribute("data-paint-state");
+      
    } else {
+      if (paintState == "bigblock" && !el.classList.contains("selected")){
+         e.currentTarget.innerHTML = `<img src="/imgs/bigblock.png" class="bigblock-ongrid" onclick="removeBigBlock(event)"/>`;
+      }
       el.classList.add("selected");
       el.setAttribute("data-paint-state", paintState);
    }
@@ -83,12 +116,6 @@ function toggleSelectedIfDown(e){
 }
 
 
-// {"test", new Dictionary<string, List<string>>
-//             {{ "blocks", new List<string> {"7,0", "12,0", "7,1", "12,1", "7,2", "10,2", "12,2", "14,2", "15,2", "7,3", "12,3", "7,4", "8,4", "9,4", "10,4", "11,4", "12,4", "9,8", "10,8", "11,8", "9,9", "11,9"}
-//             },
-//             { "food", new List<string> { "8,0", "11,3", "5,5" }
-//             }}
-//         },
 
 
 function getTheCode(){
@@ -99,6 +126,7 @@ function getTheCode(){
 
    let blockArray = [];
    let foodArray = [];
+   let bigblockArray = [];
 
    // first row
    let currentRow = boxes[0].dataset.y;
@@ -124,6 +152,10 @@ function getTheCode(){
          else if (box.dataset.paintState == "food"){
             foodArray.push(`"${boxX},${boxY}"`);
             comment += `🍜`;
+         }
+         else if (box.dataset.paintState == "bigblock"){
+            bigblockArray.push(`"${boxX},${boxY}"`);
+            // comment += `🍜`;
          }
          
       } else {
@@ -162,7 +194,24 @@ function getTheCode(){
    }
    code += `}\n\t\t\t},`; // close it up
 
+   code +=`\n\t\t\t`; // neatly space between inner dictionaries
 
+
+   // add bigblock dictionary
+   code += `{ "bigblock", new List<string> {`;
+   for (let i = 0; i < bigblockArray.length; i++){
+      code += bigblockArray[i];
+
+      // no comma on last one
+      if (i != bigblockArray.length -1){
+         code += ', ';
+      }
+   }
+   code += `}\n\t\t\t},`; // close it up
+
+
+
+   
    code += `}\n\t\t}`; // close out entire dictionary
 
 

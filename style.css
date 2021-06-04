@@ -148,3 +148,16 @@ textarea {
   color: rgba(174, 0, 255, 1) !important;
   font-weight: 800;
 }
+
+/* big block image added on click */
+.bigblock-ongrid {
+  left: 0;
+  height: 200%;
+  height: 200%;
+  position: absolute;
+  top: 0;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  z-index: 9;
+}
