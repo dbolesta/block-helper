@@ -124,9 +124,9 @@ function getTheCode(){
    if (name == '') name = 'noKey';
    let code = `{"${name}", new Dictionary<string, List<string>>\n\t\t\t{`;
 
-   let blockArray = [];
+   let smallBlocksArray = [];
    let foodArray = [];
-   let bigblockArray = [];
+   let bigBlocksArray = [];
 
    // first row
    let currentRow = boxes[0].dataset.y;
@@ -146,7 +146,7 @@ function getTheCode(){
       if (box.classList.contains("selected")){
          // find dataset, and add to associated array
          if (box.dataset.paintState == "block"){
-            blockArray.push(`"${boxX},${boxY}"`);
+            smallBlocksArray.push(`"${boxX},${boxY}"`);
             comment += `⬛`;
          } 
          else if (box.dataset.paintState == "food"){
@@ -154,7 +154,7 @@ function getTheCode(){
             comment += `🍜`;
          }
          else if (box.dataset.paintState == "bigblock"){
-            bigblockArray.push(`"${boxX},${boxY}"`);
+            bigBlocksArray.push(`"${boxX},${boxY}"`);
             // comment += `🍜`;
          }
          
@@ -167,12 +167,12 @@ function getTheCode(){
 
    // construct the code
    // add blocks dictionary
-   code += `{ "blocks", new List<string> {`;
-   for (let i = 0; i < blockArray.length; i++){
-      code += blockArray[i];
+   code += `{ "smallBlocks", new List<string> {`;
+   for (let i = 0; i < smallBlocksArray.length; i++){
+      code += smallBlocksArray[i];
 
       // no comma on last one
-      if (i != blockArray.length -1){
+      if (i != smallBlocksArray.length -1){
          code += ', ';
       }
    }
@@ -198,12 +198,12 @@ function getTheCode(){
 
 
    // add bigblock dictionary
-   code += `{ "bigblock", new List<string> {`;
-   for (let i = 0; i < bigblockArray.length; i++){
-      code += bigblockArray[i];
+   code += `{ "bigBlocks", new List<string> {`;
+   for (let i = 0; i < bigBlocksArray.length; i++){
+      code += bigBlocksArray[i];
 
       // no comma on last one
-      if (i != bigblockArray.length -1){
+      if (i != bigBlocksArray.length -1){
          code += ', ';
       }
    }
@@ -212,7 +212,7 @@ function getTheCode(){
 
 
    
-   code += `}\n\t\t}`; // close out entire dictionary
+   code += `}\n\t\t},`; // close out entire dictionary
 
 
    console.log(comment);
