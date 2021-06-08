@@ -116,6 +116,13 @@ function toggleSelectedIfDown(e){
 }
 
 
+// end painting stuff
+
+
+
+
+
+
 
 
 function getTheCode(){
@@ -128,8 +135,54 @@ function getTheCode(){
    let foodArray = [];
    let bigBlocksArray = [];
 
+
+   /// util for managing bigBlock emoji placeent
+   // need to keep tack of when 1 is added, its top left,
+   // so need to add / remove from bigBlockArrowReserves
+   const bigBlockCommentManager = {
+      addToArrays: function(x, y){
+         let intX = parseInt(x);
+         let intY = parseInt(y);
+
+         bigBlockArrowReserves.topRight.push(`${intX + 1},${intY}`);
+         bigBlockArrowReserves.bottomLeft.push(`${intX},${intY + 1}`);
+         bigBlockArrowReserves.bottomRight.push(`${intX + 1},${intY + 1}`);
+
+      },
+
+      checkIfAddCommentEmoji: function(x, y){
+         let stringToCheck = `${x},${y}`;
+
+         if (bigBlockArrowReserves.topRight[0] == stringToCheck){
+            bigBlockArrowReserves.topRight.shift();
+            // return '↗️';
+            return '🕤';
+         } else if (bigBlockArrowReserves.bottomLeft[0] == stringToCheck){
+            bigBlockArrowReserves.bottomLeft.shift();
+            // return '↙️';
+            return '🕒';
+         } else if (bigBlockArrowReserves.bottomRight[0] == stringToCheck){
+            bigBlockArrowReserves.bottomRight.shift();
+            // return '↘️';
+            return '🕘';
+         } else {
+            return false;
+         }
+
+      },
+   };
+
+
+   let bigBlockArrowReserves = {
+      topRight: [],
+      bottomLeft: [],
+      bottomRight: [],
+   }
+
+
    // first row
    let currentRow = boxes[0].dataset.y;
+
 
    boxes.forEach((box, i) => {
       let boxX = box.dataset.x;
@@ -141,7 +194,7 @@ function getTheCode(){
          comment += `\n//`;
       }
 
-
+      // ↗️ ↙️ ↘️ ↖️
       // check if box is selected with something
       if (box.classList.contains("selected")){
          // find dataset, and add to associated array
@@ -155,13 +208,29 @@ function getTheCode(){
          }
          else if (box.dataset.paintState == "bigblock"){
             bigBlocksArray.push(`"${boxX},${boxY}"`);
-            // comment += `🍜`;
+            // comment += `↖️`;
+            comment += `🕞`;
+            bigBlockCommentManager.addToArrays(boxX, boxY);
          }
          
       } else {
-         comment += `⬜`;
+
+         let commentEmoji = bigBlockCommentManager.checkIfAddCommentEmoji(boxX, boxY);
+
+         if (commentEmoji == false){
+            comment += `⬜`;
+         } else {
+            comment += commentEmoji;
+         }
+
       }
    }); // end boxes loop
+
+
+   console.log("BIGBLOCK");
+   console.log(bigBlockArrowReserves);
+
+   
 
 
 
