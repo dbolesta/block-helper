@@ -100,7 +100,7 @@ function toggleSelected(e){
       
    } else {
       if (paintState == "bigblock" && !el.classList.contains("selected")){
-         e.currentTarget.innerHTML = `<img src="/imgs/bigblock.png" class="bigblock-ongrid" onclick="removeBigBlock(event)"/>`;
+         e.currentTarget.innerHTML = `<img src="imgs/bigblock.png" class="bigblock-ongrid" onclick="removeBigBlock(event)"/>`;
       }
       el.classList.add("selected");
       el.setAttribute("data-paint-state", paintState);
