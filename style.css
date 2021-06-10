@@ -137,6 +137,14 @@ textarea {
   background-color: rgba(78, 179, 153, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
+.grid-container[data-paint-state='door'] span:hover {
+  background-color: rgba(78, 179, 153, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
+.grid-container[data-paint-state='key'] span:hover {
+  background-color: rgba(78, 179, 153, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
 
 /* selected */
 .grid-container span[data-paint-state='block'].selected {
@@ -160,6 +168,15 @@ textarea {
   height: 200%;
   position: absolute;
   top: 0;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  z-index: 9;
+}
+.doorkey-ongrid {
+  height: 150%;
+  height: 150%;
+  position: absolute;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;

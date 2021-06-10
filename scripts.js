@@ -50,7 +50,7 @@ document.addEventListener('mouseup', () => down = false);
 
 
 
-function removeBigBlock(e){
+function removeImgItem(e){
    console.log(e);
    let parent = e.currentTarget.parentElement;
    parent.classList.remove("selected");
@@ -100,7 +100,13 @@ function toggleSelected(e){
       
    } else {
       if (paintState == "bigblock" && !el.classList.contains("selected")){
-         e.currentTarget.innerHTML = `<img src="imgs/bigblock.png" class="bigblock-ongrid" onclick="removeBigBlock(event)"/>`;
+         e.currentTarget.innerHTML = `<img src="imgs/bigblock.png" class="bigblock-ongrid" onclick="removeImgItem(event)"/>`;
+      }
+      else if (paintState == "door" && !el.classList.contains("selected")){
+         e.currentTarget.innerHTML = `<img src="imgs/door.png" class="doorkey-ongrid" onclick="removeImgItem(event)"/>`;
+      }
+      else if (paintState == "key" && !el.classList.contains("selected")){
+         e.currentTarget.innerHTML = `<img src="imgs/key.png" class="doorkey-ongrid" onclick="removeImgItem(event)"/>`;
       }
       el.classList.add("selected");
       el.setAttribute("data-paint-state", paintState);
@@ -126,14 +132,16 @@ function toggleSelectedIfDown(e){
 
 
 function getTheCode(){
-   let comment = `//`;
    let name = codeNameEl.value;
+   let comment = `//${name}\n//`;
    if (name == '') name = 'noKey';
    let code = `{"${name}", new Dictionary<string, List<string>>\n\t\t\t{`;
 
    let smallBlocksArray = [];
    let foodArray = [];
    let bigBlocksArray = [];
+   let doorsArray = [];
+   let keysArray = [];
 
 
    /// util for managing bigBlock emoji placeent
@@ -212,6 +220,14 @@ function getTheCode(){
             comment += `🕞`;
             bigBlockCommentManager.addToArrays(boxX, boxY);
          }
+         else if (box.dataset.paintState == "door"){
+            doorsArray.push(`"${boxX},${boxY}"`);
+            comment += `🚪`;
+         }
+         else if (box.dataset.paintState == "key"){
+            keysArray.push(`"${boxX},${boxY}"`);
+            comment += `🔑`;
+         }
          
       } else {
 
@@ -227,10 +243,6 @@ function getTheCode(){
    }); // end boxes loop
 
 
-   console.log("BIGBLOCK");
-   console.log(bigBlockArrowReserves);
-
-   
 
 
 
@@ -263,6 +275,8 @@ function getTheCode(){
    }
    code += `}\n\t\t\t},`; // close it up
 
+   //
+
    code +=`\n\t\t\t`; // neatly space between inner dictionaries
 
 
@@ -278,7 +292,43 @@ function getTheCode(){
    }
    code += `}\n\t\t\t},`; // close it up
 
+   //
+   
+   code +=`\n\t\t\t`; // neatly space between inner dictionaries
 
+
+   // add doors dictionary
+   code += `{ "doors", new List<string> {`;
+   for (let i = 0; i < doorsArray.length; i++){
+      code += doorsArray[i];
+
+      // no comma on last one
+      if (i != doorsArray.length -1){
+         code += ', ';
+      }
+   }
+   code += `}\n\t\t\t},`; // close it up
+
+   //
+   
+   code +=`\n\t\t\t`; // neatly space between inner dictionaries
+
+
+   // add doors dictionary
+   code += `{ "keys", new List<string> {`;
+   for (let i = 0; i < keysArray.length; i++){
+      code += keysArray[i];
+
+      // no comma on last one
+      if (i != keysArray.length -1){
+         code += ', ';
+      }
+   }
+   code += `}\n\t\t\t},`; // close it up
+
+
+
+   //
 
    
    code += `}\n\t\t},`; // close out entire dictionary
