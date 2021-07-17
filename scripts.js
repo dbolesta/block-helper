@@ -41,16 +41,16 @@ document.addEventListener('mouseup', () => down = false);
 // remove bigblock-ongrid img
 // gridContainer.addEventListener('click',function(e){
 //    console.log(e.target.classList);
-   
+
 //    if(e.target.classList.contains("bigblock-ongrid")){
 //          console.log(e.target.parentElement);
-         
+
 //     }
 // });
 
 
 
-function removeImgItem(e){
+function removeImgItem(e) {
    console.log(e);
    let parent = e.currentTarget.parentElement;
    parent.classList.remove("selected");
@@ -63,7 +63,7 @@ function removeImgItem(e){
 // functions
 ////////////////////
 // change paint brush
-function handleObjectSelect(e){
+function handleObjectSelect(e) {
    let el = e.currentTarget;
 
    // update selection indicator (blow box)
@@ -80,33 +80,36 @@ function handleObjectSelect(e){
 
 
 
-function clearSelected(){
-   boxes.forEach(box=> {
+function clearSelected() {
+   boxes.forEach(box => {
       box.classList.remove("selected");
       box.removeAttribute("data-paint-state");
    }); // end boxes loop
 } // end clearSelected
 
 
-function toggleSelected(e){
+function toggleSelected(e) {
    let el = e.target;
 
    // cancel if bigblock clicked
    if (el.classList.contains("bigblock-ongrid")) return;
 
-   if (el.classList.contains("selected")){
+   if (el.classList.contains("selected")) {
       el.classList.remove("selected");
       el.removeAttribute("data-paint-state");
-      
+
    } else {
-      if (paintState == "bigblock" && !el.classList.contains("selected")){
+      if (paintState == "bigblock" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<img src="imgs/bigblock.png" class="bigblock-ongrid" onclick="removeImgItem(event)"/>`;
       }
-      else if (paintState == "door" && !el.classList.contains("selected")){
+      else if (paintState == "door" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<img src="imgs/door.png" class="doorkey-ongrid" onclick="removeImgItem(event)"/>`;
       }
-      else if (paintState == "key" && !el.classList.contains("selected")){
+      else if (paintState == "key" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<img src="imgs/key.png" class="doorkey-ongrid" onclick="removeImgItem(event)"/>`;
+      }
+      else if (paintState == "brickblock" && !el.classList.contains("selected")) {
+         e.currentTarget.innerHTML = `<img src="imgs/brickblock.png" class="brickblock-ongrid" onclick="removeImgItem(event)"/>`;
       }
       el.classList.add("selected");
       el.setAttribute("data-paint-state", paintState);
@@ -114,8 +117,8 @@ function toggleSelected(e){
 
 }
 
-function toggleSelectedIfDown(e){
-   if (down){
+function toggleSelectedIfDown(e) {
+   if (down) {
       e.target.classList.add("selected");
       e.target.setAttribute("data-paint-state", paintState);
    }
@@ -131,7 +134,7 @@ function toggleSelectedIfDown(e){
 
 
 
-function getTheCode(){
+function getTheCode() {
    let name = codeNameEl.value;
    let comment = `//${name}\n//`;
    if (name == '') name = 'noKey';
@@ -142,13 +145,14 @@ function getTheCode(){
    let bigBlocksArray = [];
    let doorsArray = [];
    let keysArray = [];
+   let brickBlockArray = [];
 
 
    /// util for managing bigBlock emoji placeent
    // need to keep tack of when 1 is added, its top left,
    // so need to add / remove from bigBlockArrowReserves
    const bigBlockCommentManager = {
-      addToArrays: function(x, y){
+      addToArrays: function (x, y) {
          let intX = parseInt(x);
          let intY = parseInt(y);
 
@@ -158,18 +162,18 @@ function getTheCode(){
 
       },
 
-      checkIfAddCommentEmoji: function(x, y){
+      checkIfAddCommentEmoji: function (x, y) {
          let stringToCheck = `${x},${y}`;
 
-         if (bigBlockArrowReserves.topRight[0] == stringToCheck){
+         if (bigBlockArrowReserves.topRight[0] == stringToCheck) {
             bigBlockArrowReserves.topRight.shift();
             // return '↗️';
             return '🕤';
-         } else if (bigBlockArrowReserves.bottomLeft[0] == stringToCheck){
+         } else if (bigBlockArrowReserves.bottomLeft[0] == stringToCheck) {
             bigBlockArrowReserves.bottomLeft.shift();
             // return '↙️';
             return '🕒';
-         } else if (bigBlockArrowReserves.bottomRight[0] == stringToCheck){
+         } else if (bigBlockArrowReserves.bottomRight[0] == stringToCheck) {
             bigBlockArrowReserves.bottomRight.shift();
             // return '↘️';
             return '🕘';
@@ -197,43 +201,49 @@ function getTheCode(){
       let boxY = box.dataset.y;
 
       // new row
-      if (currentRow != box.dataset.y){
+      if (currentRow != box.dataset.y) {
          currentRow = box.dataset.y
          comment += `\n//`;
       }
 
       // ↗️ ↙️ ↘️ ↖️
       // check if box is selected with something
-      if (box.classList.contains("selected")){
+      if (box.classList.contains("selected")) {
          // find dataset, and add to associated array
-         if (box.dataset.paintState == "block"){
+         if (box.dataset.paintState == "block") {
             smallBlocksArray.push(`"${boxX},${boxY}"`);
             comment += `⬛`;
-         } 
-         else if (box.dataset.paintState == "food"){
+         }
+         else if (box.dataset.paintState == "food") {
             foodArray.push(`"${boxX},${boxY}"`);
             comment += `🍜`;
          }
-         else if (box.dataset.paintState == "bigblock"){
+         else if (box.dataset.paintState == "bigblock") {
             bigBlocksArray.push(`"${boxX},${boxY}"`);
             // comment += `↖️`;
             comment += `🕞`;
             bigBlockCommentManager.addToArrays(boxX, boxY);
          }
-         else if (box.dataset.paintState == "door"){
+         else if (box.dataset.paintState == "door") {
             doorsArray.push(`"${boxX},${boxY}"`);
             comment += `🚪`;
          }
-         else if (box.dataset.paintState == "key"){
+         else if (box.dataset.paintState == "key") {
             keysArray.push(`"${boxX},${boxY}"`);
             comment += `🔑`;
          }
-         
+         else if (box.dataset.paintState == "brickblock") {
+            brickBlockArray.push(`"${boxX},${boxY}"`);
+            // comment += `↖️`;
+            comment += `🕞`;
+            bigBlockCommentManager.addToArrays(boxX, boxY);
+         }
+
       } else {
 
          let commentEmoji = bigBlockCommentManager.checkIfAddCommentEmoji(boxX, boxY);
 
-         if (commentEmoji == false){
+         if (commentEmoji == false) {
             comment += `⬜`;
          } else {
             comment += commentEmoji;
@@ -249,27 +259,27 @@ function getTheCode(){
    // construct the code
    // add blocks dictionary
    code += `{ "smallBlocks", new List<string> {`;
-   for (let i = 0; i < smallBlocksArray.length; i++){
+   for (let i = 0; i < smallBlocksArray.length; i++) {
       code += smallBlocksArray[i];
 
       // no comma on last one
-      if (i != smallBlocksArray.length -1){
+      if (i != smallBlocksArray.length - 1) {
          code += ', ';
       }
    }
    code += `}\n\t\t\t},`; // close it up
 
 
-   code +=`\n\t\t\t`; // neatly space between inner dictionaries
+   code += `\n\t\t\t`; // neatly space between inner dictionaries
 
 
    // add food dictionary
    code += `{ "food", new List<string> {`;
-   for (let i = 0; i < foodArray.length; i++){
+   for (let i = 0; i < foodArray.length; i++) {
       code += foodArray[i];
 
       // no comma on last one
-      if (i != foodArray.length -1){
+      if (i != foodArray.length - 1) {
          code += ', ';
       }
    }
@@ -277,50 +287,68 @@ function getTheCode(){
 
    //
 
-   code +=`\n\t\t\t`; // neatly space between inner dictionaries
+   code += `\n\t\t\t`; // neatly space between inner dictionaries
 
 
    // add bigblock dictionary
    code += `{ "bigBlocks", new List<string> {`;
-   for (let i = 0; i < bigBlocksArray.length; i++){
+   for (let i = 0; i < bigBlocksArray.length; i++) {
       code += bigBlocksArray[i];
 
       // no comma on last one
-      if (i != bigBlocksArray.length -1){
+      if (i != bigBlocksArray.length - 1) {
          code += ', ';
       }
    }
    code += `}\n\t\t\t},`; // close it up
 
    //
-   
-   code +=`\n\t\t\t`; // neatly space between inner dictionaries
+
+   code += `\n\t\t\t`; // neatly space between inner dictionaries
 
 
    // add doors dictionary
    code += `{ "doors", new List<string> {`;
-   for (let i = 0; i < doorsArray.length; i++){
+   for (let i = 0; i < doorsArray.length; i++) {
       code += doorsArray[i];
 
       // no comma on last one
-      if (i != doorsArray.length -1){
+      if (i != doorsArray.length - 1) {
          code += ', ';
       }
    }
    code += `}\n\t\t\t},`; // close it up
 
    //
-   
-   code +=`\n\t\t\t`; // neatly space between inner dictionaries
+
+   code += `\n\t\t\t`; // neatly space between inner dictionaries
 
 
-   // add doors dictionary
+   // add keys dictionary
    code += `{ "keys", new List<string> {`;
-   for (let i = 0; i < keysArray.length; i++){
+   for (let i = 0; i < keysArray.length; i++) {
       code += keysArray[i];
 
       // no comma on last one
-      if (i != keysArray.length -1){
+      if (i != keysArray.length - 1) {
+         code += ', ';
+      }
+   }
+   code += `}\n\t\t\t},`; // close it up
+
+
+   //
+
+   code += `\n\t\t\t`; // neatly space between inner dictionaries
+
+
+   // add brickblock dictionary
+   code += `{ "brickblock", new List<string> {`;
+   for (let i = 0; i < brickBlockArray.length; i++) {
+      code += brickBlockArray[i];
+
+      // no comma on last one
+      if (i != brickBlockArray.length - 1) {
          code += ', ';
       }
    }
@@ -330,7 +358,7 @@ function getTheCode(){
 
    //
 
-   
+
    code += `}\n\t\t},`; // close out entire dictionary
 
 
@@ -351,7 +379,7 @@ function getTheCode(){
 
 // util
 ////////////////////
-function generateSpans(){
+function generateSpans() {
    // 27 , 12
    // old 8x8 was xmax 20, ymax 9
 
@@ -363,12 +391,12 @@ function generateSpans(){
    let html = '';
 
    // important that we loop y first
-   for (let y = yMin; y <= yMax; y++){
-      for (let x = xMin; x <= xMax; x++){
-            html += `<span data-x="${x}" data-y="${y}">${x},${y}</span>`;
+   for (let y = yMin; y <= yMax; y++) {
+      for (let x = xMin; x <= xMax; x++) {
+         html += `<span data-x="${x}" data-y="${y}">${x},${y}</span>`;
       }
    }
-   
+
    console.log(html);
 
    // ${str.repeat(27)}
@@ -377,9 +405,9 @@ function generateSpans(){
    // class="snake-enter"
    let dot = '. ';
    let gridArea = `'` + dot.repeat(xMax + 1).slice(0, -1) + `'\n`;
-   
+
    console.log(
-`grid-template-columns: repeat(${xMax + 1}, 1fr);
+      `grid-template-columns: repeat(${xMax + 1}, 1fr);
 grid-template-rows: repeat(${yMax + 1}, 1fr);
 grid-template-areas: 
 ${gridArea.repeat(yMax + 1)};`);
