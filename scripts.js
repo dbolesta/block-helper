@@ -146,6 +146,7 @@ function getTheCode() {
    let doorsArray = [];
    let keysArray = [];
    let brickBlockArray = [];
+   let brickBlockSmallArray = [];
 
 
    /// util for managing bigBlock emoji placeent
@@ -237,6 +238,10 @@ function getTheCode() {
             // comment += `↖️`;
             comment += `🕞`;
             bigBlockCommentManager.addToArrays(boxX, boxY);
+         }
+         else if (box.dataset.paintState == "brickblocksmall") {
+            keysArray.push(`"${boxX},${boxY}"`);
+            comment += `🧱`;
          }
 
       } else {
@@ -355,8 +360,24 @@ function getTheCode() {
    code += `}\n\t\t\t},`; // close it up
 
 
-
    //
+
+   code += `\n\t\t\t`; // neatly space between inner dictionaries
+
+
+   // add brickblock dictionary
+   code += `{ "brickblocksmall", new List<string> {`;
+   for (let i = 0; i < brickBlockSmallArray.length; i++) {
+      code += brickBlockSmallArray[i];
+
+      // no comma on last one
+      if (i != brickBlockSmallArray.length - 1) {
+         code += ', ';
+      }
+   }
+   code += `}\n\t\t\t},`; // close it up
+
+   // // this should be the end
 
 
    code += `}\n\t\t},`; // close out entire dictionary

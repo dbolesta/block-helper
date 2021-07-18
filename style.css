@@ -149,6 +149,10 @@ textarea {
   background-color: rgba(192, 127, 66, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
+.grid-container[data-paint-state='brickblocksmall'] span:hover {
+  background-color: rgba(167, 95, 27, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
 
 /* selected */
 .grid-container span[data-paint-state='block'].selected {
@@ -157,6 +161,10 @@ textarea {
 }
 .grid-container span[data-paint-state='food'].selected {
   background-color: #e8d15d;
+  color: rgba(255, 255, 255, 0.4);
+}
+.grid-container span[data-paint-state='brickblocksmall'].selected {
+  background-color: #bd6428;
   color: rgba(255, 255, 255, 0.4);
 }
 
