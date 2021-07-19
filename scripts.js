@@ -88,17 +88,22 @@ function clearSelected() {
 } // end clearSelected
 
 
+// fills or unfills actual block on the grid
 function toggleSelected(e) {
-   let el = e.target;
+   let el = e.target; // this cell
 
    // cancel if bigblock clicked
    if (el.classList.contains("bigblock-ongrid")) return;
 
+   
    if (el.classList.contains("selected")) {
+      // if already selected, unselect
       el.classList.remove("selected");
       el.removeAttribute("data-paint-state");
 
-   } else {
+   } 
+   else {
+      // for some (usually 2x2, we append an img instead of filling the cell)
       if (paintState == "bigblock" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<img src="imgs/bigblock.png" class="bigblock-ongrid" onclick="removeImgItem(event)"/>`;
       }
@@ -111,12 +116,15 @@ function toggleSelected(e) {
       else if (paintState == "brickblock" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<img src="imgs/brickblock.png" class="brickblock-ongrid" onclick="removeImgItem(event)"/>`;
       }
+
+      // img or not, select the grid and update paintstate
       el.classList.add("selected");
       el.setAttribute("data-paint-state", paintState);
    }
 
 }
 
+// can drag select on grid
 function toggleSelectedIfDown(e) {
    if (down) {
       e.target.classList.add("selected");
@@ -126,20 +134,22 @@ function toggleSelectedIfDown(e) {
 
 
 // end painting stuff
+/////////////////////////
 
 
 
 
 
 
-
-
+// generate code
 function getTheCode() {
-   let name = codeNameEl.value;
-   let comment = `//${name}\n//`;
-   if (name == '') name = 'noKey';
-   let code = `{"${name}", new Dictionary<string, List<string>>\n\t\t\t{`;
+   let name = codeNameEl.value; // name of key
+   if (name == '') name = 'noKey'; // if no name, give it a placeholder name
 
+   let comment = `//${name}\n//`; // starting the comment string
+   let code = `{"${name}", new Dictionary<string, List<string>>\n\t\t\t{`; // start the code string
+
+   // arrays to store string coords of each object (ex: "1,2")
    let smallBlocksArray = [];
    let foodArray = [];
    let bigBlocksArray = [];
@@ -185,7 +195,7 @@ function getTheCode() {
       },
    };
 
-
+   // where we store all the 2x2 emoji positions
    let bigBlockArrowReserves = {
       topRight: [],
       bottomLeft: [],
@@ -193,24 +203,26 @@ function getTheCode() {
    }
 
 
-   // first row
+   // first row is y-0
    let currentRow = boxes[0].dataset.y;
 
-
+   // loop through every cell
    boxes.forEach((box, i) => {
       let boxX = box.dataset.x;
       let boxY = box.dataset.y;
 
-      // new row
+      // if y has changed, we are on a new row. set it and start new line in comment
       if (currentRow != box.dataset.y) {
          currentRow = box.dataset.y
          comment += `\n//`;
       }
 
-      // ↗️ ↙️ ↘️ ↖️
-      // check if box is selected with something
+      // check if box is selected with something. if so,
+      // this block with both:
+      // 1. add the string representation of the coordinate to its respective array
+      // 2. add an emoji to the comment code
+      // (special case for 2x2 imgs, using commentManager to place emojis in 2x2)
       if (box.classList.contains("selected")) {
-         // find dataset, and add to associated array
          if (box.dataset.paintState == "block") {
             smallBlocksArray.push(`"${boxX},${boxY}"`);
             comment += `⬛`;
@@ -221,9 +233,8 @@ function getTheCode() {
          }
          else if (box.dataset.paintState == "bigblock") {
             bigBlocksArray.push(`"${boxX},${boxY}"`);
-            // comment += `↖️`;
             comment += `🕞`;
-            bigBlockCommentManager.addToArrays(boxX, boxY);
+            bigBlockCommentManager.addToArrays(boxX, boxY); // send coords, which will then later place emoji in x+1, y+1, and x+1 y+1 to make 2x2
          }
          else if (box.dataset.paintState == "door") {
             doorsArray.push(`"${boxX},${boxY}"`);
@@ -235,21 +246,20 @@ function getTheCode() {
          }
          else if (box.dataset.paintState == "brickblock") {
             brickBlockArray.push(`"${boxX},${boxY}"`);
-            // comment += `↖️`;
             comment += `🕞`;
-            bigBlockCommentManager.addToArrays(boxX, boxY);
+            bigBlockCommentManager.addToArrays(boxX, boxY); // same here
          }
          else if (box.dataset.paintState == "brickblocksmall") {
-            keysArray.push(`"${boxX},${boxY}"`);
+            brickBlockSmallArray.push(`"${boxX},${boxY}"`);
             comment += `🧱`;
          }
 
       } else {
-
+         // here is where we check if there should be an emoji placed in the 2x2
          let commentEmoji = bigBlockCommentManager.checkIfAddCommentEmoji(boxX, boxY);
 
          if (commentEmoji == false) {
-            comment += `⬜`;
+            comment += `⬜`; // if not, regular empty block
          } else {
             comment += commentEmoji;
          }
@@ -260,8 +270,7 @@ function getTheCode() {
 
 
 
-
-   // construct the code
+   // CONSTRUCT THE ACTUAL C# CODE
    // add blocks dictionary
    code += `{ "smallBlocks", new List<string> {`;
    for (let i = 0; i < smallBlocksArray.length; i++) {
@@ -387,12 +396,6 @@ function getTheCode() {
    codeBoxEl.value = `${comment}\n\n${code}`;
 }
 
-
-// example:
-// private List<Vector2> fixedBlocksPos = new List<Vector2> {
-//    new Vector2(-2, -3), new Vector2(-2, -2), new Vector2(-2, -1), new Vector2(-2, 0), new Vector2(-2, 1), new Vector2(-2, 2),
-//    new Vector2(4, 2), new Vector2(4, 3), new Vector2(4, 4), new Vector2(4, 5), new Vector2(4, 6), new Vector2(4, 7)
-// };
 
 
 
