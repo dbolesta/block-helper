@@ -6,6 +6,8 @@
 let down = false; // keep track if mouse is down (so we can drag grid entries)
 let paintState = "block"; // which object is select and should be painted on grid
 
+
+let selectedCharacter = "snake";
 // let test2 = [
 //    {key: "ok", array: [1, 2, 3]},
 //    {key: "okk", array: [11, 22, 33]},{key: "okkk", array: [111, 222, 333]}, 
@@ -39,8 +41,9 @@ let gridContainerBomber = document.querySelector(".grid-container-bomber");
 let boxes = document.querySelectorAll(".grid-container > span");
 let boxesBomber = document.querySelectorAll(".grid-container-bomber > span");
 
-
+let characterSelectors = document.querySelectorAll(".character-container");
 let objectSelectors = document.querySelectorAll(".object-selector");
+
 let getCodeBtn = document.querySelector(".get-code");
 let clearSelectedBtn = document.querySelector(".clear-selected");
 
@@ -49,6 +52,10 @@ let codeNameEl = document.querySelector(".code-name");
 
 // event listeners
 ////////////////////
+characterSelectors.forEach(cSelector => {
+   cSelector.addEventListener("click", handleCharacterSelect);
+});
+
 boxes.forEach(box => {
    box.addEventListener("mousedown", toggleSelected);
    box.addEventListener("mouseenter", toggleSelectedIfDown);
@@ -105,6 +112,26 @@ function handleObjectSelect(e) {
    paintState = el.dataset.paintState;
    gridContainer.dataset.paintState = paintState;
 
+}
+
+
+// update character select
+function handleCharacterSelect(e){
+   selectedCharacter = e.target.dataset.character;
+   updateActiveGrid();
+}
+
+function updateActiveGrid(){
+   console.log("selected character is");
+   console.log(selectedCharacter);
+   if (selectedCharacter == "snake"){
+      gridContainer.classList.add("active-grid");
+      gridContainerBomber.classList.remove("active-grid");
+   }
+   else if (selectedCharacter == "bomber"){
+      gridContainer.classList.remove("active-grid");
+      gridContainerBomber.classList.add("active-grid");
+   }
 }
 
 

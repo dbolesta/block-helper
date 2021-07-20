@@ -32,6 +32,16 @@
         ></textarea>
       </div>
       <div class="grid">
+        <div class="character-selector-container">
+          <div class="character-container" data-character="snake">
+            Snake
+          </div>
+          <div class="character-container" data-character="bomber">
+            Bomber
+          </div>
+        </div>
+        <!-- ./character-selector-contaienr-->
+
         <div class="object-selectors-container">
           <div class="object-selectors">
             <div
@@ -75,7 +85,8 @@
         </div>
         <!-- ./object-selectors-container -->
 
-        <div class="grid-container" data-paint-state="block">
+        <!-- prettier-ignore -->
+        <div class="grid-container active-grid" data-paint-state="block">
           <span data-x="0" data-y="0">0,0</span
           ><span data-x="1" data-y="0">1,0</span
           ><span data-x="2" data-y="0">2,0</span
@@ -443,6 +454,7 @@
         </div>
         <!-- ./end grid-container (for snake)-->
 
+        <!-- prettier-ignore -->
         <div
           class="grid-container-bomber"
           data-paint-state="brickblock"

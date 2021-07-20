@@ -81,7 +81,8 @@ textarea {
 }
 
 .grid-container {
-  display: grid;
+  /* display: grid; */
+  display: none;
   background-color: #c7f0d8;
   grid-template-columns: repeat(28, 1fr);
   grid-template-rows: repeat(13, 1fr);
@@ -102,7 +103,8 @@ textarea {
   gap: 0px 0px;
 }
 .grid-container-bomber {
-  display: grid;
+  /* display: grid; */
+  display: none;
   background-color: #c7f0d8;
   grid-template-columns: repeat(43, 1fr);
   grid-template-rows: repeat(21, 1fr);
@@ -129,6 +131,11 @@ textarea {
     '. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .'
     '. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .';
   gap: 0px 0px;
+}
+
+.grid-container.active-grid,
+.grid-container-bomber.active-grid {
+  display: grid;
 }
 
 .grid-container span,
