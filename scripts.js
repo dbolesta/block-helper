@@ -6,6 +6,30 @@
 let down = false; // keep track if mouse is down (so we can drag grid entries)
 let paintState = "block"; // which object is select and should be painted on grid
 
+// let test2 = [
+//    {key: "ok", array: [1, 2, 3]},
+//    {key: "okk", array: [11, 22, 33]},{key: "okkk", array: [111, 222, 333]}, 
+// ];
+
+
+// master key/position array reference for each attack
+// will need to add all keys here as they are added
+let snakeKeysAndPosArrays = {
+   "smallBlocks": [],
+   "food": [],
+   "bigBlocks": [],
+   "doors": [],
+   "keys": []
+};
+
+let bomberKeysAndPosArrays = {
+   "brickblock": [],
+   "brickblocksmall": []
+};
+
+
+
+
 
 // cache references
 ////////////////////
@@ -150,6 +174,7 @@ function getTheCode() {
    let code = `{"${name}", new Dictionary<string, List<string>>\n\t\t\t{`; // start the code string
 
    // arrays to store string coords of each object (ex: "1,2")
+   // no longer need, delete soon
    let smallBlocksArray = [];
    let foodArray = [];
    let bigBlocksArray = [];
@@ -157,6 +182,16 @@ function getTheCode() {
    let keysArray = [];
    let brickBlockArray = [];
    let brickBlockSmallArray = [];
+
+
+   // clear out existing arrays
+   for (const [key, value] of Object.entries(snakeKeysAndPosArrays)) {
+      snakeKeysAndPosArrays[key] = [];
+   }
+
+   for (const [key, value] of Object.entries(bomberKeysAndPosArrays)) {
+      bomberKeysAndPosArrays[key] = [];
+   }
 
 
    /// util for managing bigBlock emoji placeent
@@ -224,33 +259,33 @@ function getTheCode() {
       // (special case for 2x2 imgs, using commentManager to place emojis in 2x2)
       if (box.classList.contains("selected")) {
          if (box.dataset.paintState == "block") {
-            smallBlocksArray.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.smallBlocks.push(`"${boxX},${boxY}"`);
             comment += `⬛`;
          }
          else if (box.dataset.paintState == "food") {
-            foodArray.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.food.push(`"${boxX},${boxY}"`);
             comment += `🍜`;
          }
          else if (box.dataset.paintState == "bigblock") {
-            bigBlocksArray.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.bigBlocks.push(`"${boxX},${boxY}"`);
             comment += `🕞`;
             bigBlockCommentManager.addToArrays(boxX, boxY); // send coords, which will then later place emoji in x+1, y+1, and x+1 y+1 to make 2x2
          }
          else if (box.dataset.paintState == "door") {
-            doorsArray.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.doors.push(`"${boxX},${boxY}"`);
             comment += `🚪`;
          }
          else if (box.dataset.paintState == "key") {
-            keysArray.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.keys.push(`"${boxX},${boxY}"`);
             comment += `🔑`;
          }
          else if (box.dataset.paintState == "brickblock") {
-            brickBlockArray.push(`"${boxX},${boxY}"`);
+            bomberKeysAndPosArrays.brickblock.push(`"${boxX},${boxY}"`);
             comment += `🕞`;
             bigBlockCommentManager.addToArrays(boxX, boxY); // same here
          }
          else if (box.dataset.paintState == "brickblocksmall") {
-            brickBlockSmallArray.push(`"${boxX},${boxY}"`);
+            bomberKeysAndPosArrays.brickblocksmall.push(`"${boxX},${boxY}"`);
             comment += `🧱`;
          }
 
@@ -268,123 +303,39 @@ function getTheCode() {
    }); // end boxes loop
 
 
+   // loop through each master key/array reference and add to code if needed
+   for (const [key, value] of Object.entries(snakeKeysAndPosArrays)) {
+      code += `{ "${key}", new List<string> {`;
+      for (let i = 0; i < snakeKeysAndPosArrays[key].length; i++) {
+         code += snakeKeysAndPosArrays[key][i];
 
-
-   // CONSTRUCT THE ACTUAL C# CODE
-   // add blocks dictionary
-   code += `{ "smallBlocks", new List<string> {`;
-   for (let i = 0; i < smallBlocksArray.length; i++) {
-      code += smallBlocksArray[i];
-
-      // no comma on last one
-      if (i != smallBlocksArray.length - 1) {
-         code += ', ';
+         // no comma on last one
+         if (i != snakeKeysAndPosArrays[key].length - 1) {
+            code += ', ';
+         }
       }
-   }
-   code += `}\n\t\t\t},`; // close it up
+      code += `}\n\t\t\t},`; // close it up
 
+      code += `\n\t\t\t`; // neatly space between inner dictionaries
+   } // end loop
 
-   code += `\n\t\t\t`; // neatly space between inner dictionaries
+   for (const [key, value] of Object.entries(bomberKeysAndPosArrays)) {
+      code += `{ "${key}", new List<string> {`;
+      for (let i = 0; i < bomberKeysAndPosArrays[key].length; i++) {
+         code += bomberKeysAndPosArrays[key][i];
 
-
-   // add food dictionary
-   code += `{ "food", new List<string> {`;
-   for (let i = 0; i < foodArray.length; i++) {
-      code += foodArray[i];
-
-      // no comma on last one
-      if (i != foodArray.length - 1) {
-         code += ', ';
+         // no comma on last one
+         if (i != bomberKeysAndPosArrays[key].length - 1) {
+            code += ', ';
+         }
       }
-   }
-   code += `}\n\t\t\t},`; // close it up
+      code += `}\n\t\t\t},`; // close it up
 
-   //
-
-   code += `\n\t\t\t`; // neatly space between inner dictionaries
+      code += `\n\t\t\t`; // neatly space between inner dictionaries
+   } // end loop
 
 
-   // add bigblock dictionary
-   code += `{ "bigBlocks", new List<string> {`;
-   for (let i = 0; i < bigBlocksArray.length; i++) {
-      code += bigBlocksArray[i];
-
-      // no comma on last one
-      if (i != bigBlocksArray.length - 1) {
-         code += ', ';
-      }
-   }
-   code += `}\n\t\t\t},`; // close it up
-
-   //
-
-   code += `\n\t\t\t`; // neatly space between inner dictionaries
-
-
-   // add doors dictionary
-   code += `{ "doors", new List<string> {`;
-   for (let i = 0; i < doorsArray.length; i++) {
-      code += doorsArray[i];
-
-      // no comma on last one
-      if (i != doorsArray.length - 1) {
-         code += ', ';
-      }
-   }
-   code += `}\n\t\t\t},`; // close it up
-
-   //
-
-   code += `\n\t\t\t`; // neatly space between inner dictionaries
-
-
-   // add keys dictionary
-   code += `{ "keys", new List<string> {`;
-   for (let i = 0; i < keysArray.length; i++) {
-      code += keysArray[i];
-
-      // no comma on last one
-      if (i != keysArray.length - 1) {
-         code += ', ';
-      }
-   }
-   code += `}\n\t\t\t},`; // close it up
-
-
-   //
-
-   code += `\n\t\t\t`; // neatly space between inner dictionaries
-
-
-   // add brickblock dictionary
-   code += `{ "brickblock", new List<string> {`;
-   for (let i = 0; i < brickBlockArray.length; i++) {
-      code += brickBlockArray[i];
-
-      // no comma on last one
-      if (i != brickBlockArray.length - 1) {
-         code += ', ';
-      }
-   }
-   code += `}\n\t\t\t},`; // close it up
-
-
-   //
-
-   code += `\n\t\t\t`; // neatly space between inner dictionaries
-
-
-   // add brickblock dictionary
-   code += `{ "brickblocksmall", new List<string> {`;
-   for (let i = 0; i < brickBlockSmallArray.length; i++) {
-      code += brickBlockSmallArray[i];
-
-      // no comma on last one
-      if (i != brickBlockSmallArray.length - 1) {
-         code += ', ';
-      }
-   }
-   code += `}\n\t\t\t},`; // close it up
+   
 
    // // this should be the end
 
