@@ -61,6 +61,11 @@ boxes.forEach(box => {
    box.addEventListener("mouseenter", toggleSelectedIfDown);
 });
 
+boxesBomber.forEach(boxBomber => {
+   boxBomber.addEventListener("mousedown", toggleSelected);
+   boxBomber.addEventListener("mouseenter", toggleSelectedIfDown);
+});
+
 getCodeBtn.addEventListener('click', getTheCode);
 
 clearSelectedBtn.addEventListener('click', clearSelected);
@@ -111,6 +116,7 @@ function handleObjectSelect(e) {
    // update paintstate
    paintState = el.dataset.paintState;
    gridContainer.dataset.paintState = paintState;
+   gridContainerBomber.dataset.paintState = paintState;
 
 }
 
@@ -140,6 +146,10 @@ function clearSelected() {
    boxes.forEach(box => {
       box.classList.remove("selected");
       box.removeAttribute("data-paint-state");
+   }); // end boxes loop
+   boxesBomber.forEach(boxBomber => {
+      boxBomber.classList.remove("selected");
+      boxBomber.removeAttribute("data-paint-state");
    }); // end boxes loop
 } // end clearSelected
 
@@ -270,11 +280,25 @@ function getTheCode() {
    }
 
 
+
+   // determin current box
+   let currentBoxes;
+
+   if (selectedCharacter == "snake"){
+      currentBoxes = boxes;
+   }
+   else if (selectedCharacter == "bomber"){
+      currentBoxes = boxesBomber;
+   }
+
+
+
+
    // first row is y-0
-   let currentRow = boxes[0].dataset.y;
+   let currentRow = currentBoxes[0].dataset.y;
 
    // loop through every cell
-   boxes.forEach((box, i) => {
+   currentBoxes.forEach((box, i) => {
       let boxX = box.dataset.x;
       let boxY = box.dataset.y;
 
