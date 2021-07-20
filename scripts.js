@@ -34,7 +34,12 @@ let bomberKeysAndPosArrays = {
 // cache references
 ////////////////////
 let gridContainer = document.querySelector(".grid-container");
+let gridContainerBomber = document.querySelector(".grid-container-bomber");
+
 let boxes = document.querySelectorAll(".grid-container > span");
+let boxesBomber = document.querySelectorAll(".grid-container-bomber > span");
+
+
 let objectSelectors = document.querySelectorAll(".object-selector");
 let getCodeBtn = document.querySelector(".get-code");
 let clearSelectedBtn = document.querySelector(".clear-selected");
@@ -378,6 +383,36 @@ function generateSpans() {
    // return html;
    // .slice(0, -1)
    // class="snake-enter"
+   let dot = '. ';
+   let gridArea = `'` + dot.repeat(xMax + 1).slice(0, -1) + `'\n`;
+
+   console.log(
+      `grid-template-columns: repeat(${xMax + 1}, 1fr);
+grid-template-rows: repeat(${yMax + 1}, 1fr);
+grid-template-areas: 
+${gridArea.repeat(yMax + 1)};`);
+}
+
+
+function generateSpansBomber() {
+   // 42 , 20
+
+   let xMin = 0;
+   let xMax = 42;
+   let yMin = 0;
+   let yMax = 20;
+
+   let html = '';
+
+   // important that we loop y first
+   for (let y = yMin; y <= yMax; y++) {
+      for (let x = xMin; x <= xMax; x++) {
+         html += `<span data-x="${x}" data-y="${y}">${x},${y}</span>`;
+      }
+   }
+
+   console.log(html);
+
    let dot = '. ';
    let gridArea = `'` + dot.repeat(xMax + 1).slice(0, -1) + `'\n`;
 
