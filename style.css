@@ -211,9 +211,8 @@ textarea {
   background-color: #e8d15d;
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container
-  span[data-paint-state='brickblocksmall'].selected
-  .grid-container-bomber
+.grid-container span[data-paint-state='brickblocksmall'].selected,
+.grid-container-bomber
   span[data-paint-state='brickblocksmall'].selected {
   background-color: #bd6428;
   color: rgba(255, 255, 255, 0.4);
