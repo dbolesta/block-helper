@@ -449,9 +449,9 @@ function generateSpansBomber() {
    // 42 , 20
 
    let xMin = 0;
-   let xMax = 42;
+   let xMax = 41;
    let yMin = 0;
-   let yMax = 20;
+   let yMax = 19;
 
    let html = '';
 
