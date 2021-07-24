@@ -198,6 +198,11 @@ textarea {
   background-color: rgba(167, 95, 27, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
+.grid-container[data-paint-state='flameHead'] span:hover,
+.grid-container-bomber[data-paint-state='flameHead'] span:hover {
+  background-color: rgba(219, 61, 21, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
 
 /* selected */
 .grid-container span[data-paint-state='block'].selected,
@@ -249,6 +254,15 @@ textarea {
   height: 200%;
   position: absolute;
   top: 0;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  z-index: 9;
+}
+
+.flameHead-ongrid {
+  height: 150%;
+  position: absolute;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
