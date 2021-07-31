@@ -268,3 +268,11 @@ textarea {
   image-rendering: crisp-edges;
   z-index: 9;
 }
+.bomber-ongrid {
+  height: 100%;
+  position: absolute;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  z-index: 9;
+}

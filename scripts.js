@@ -27,7 +27,8 @@ let snakeKeysAndPosArrays = {
 let bomberKeysAndPosArrays = {
    "brickblock": [],
    "brickblocksmall": [],
-   "flameHead": []
+   "flameHead": [],
+   "bomber": [],
 };
 
 
@@ -185,6 +186,9 @@ function toggleSelected(e) {
       }
       else if (paintState == "flameHead" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<img src="imgs/flamehead.png" class="flameHead-ongrid" onclick="removeImgItem(event)"/>`;
+      }
+      else if (paintState == "bomber" && !el.classList.contains("selected")) {
+         e.currentTarget.innerHTML = `<img src="imgs/bomber.png" class="bomber-ongrid" onclick="removeImgItem(event)"/>`;
       }
 
       // img or not, select the grid and update paintstate
@@ -351,6 +355,10 @@ function getTheCode() {
          else if (box.dataset.paintState == "flameHead") {
             bomberKeysAndPosArrays.flameHead.push(`"${boxX},${boxY}"`);
             comment += `🔥`;
+         }
+         else if (box.dataset.paintState == "bomber") {
+            bomberKeysAndPosArrays.bomber.push(`"${boxX},${boxY}"`);
+            comment += `💣`;
          }
 
       } else {
