@@ -13,7 +13,7 @@ textarea {
   background-color: dimgray;
   padding: 0.3rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   /* flex-wrap: wrap; */
 }
 
@@ -72,6 +72,11 @@ textarea {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+}
+
+/* character selectors */
+.character-selector-container {
+  float: right;
 }
 
 /* readl grid */
