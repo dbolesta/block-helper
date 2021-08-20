@@ -32,7 +32,10 @@ let bomberKeysAndPosArrays = {
 // cache references
 ////////////////////
 let gridContainerSnake = document.querySelector(".grid-container.snake-grid");
+gridContainerSnake.innerHTML = snakeGridHtml;
+
 let gridContainerBomber = document.querySelector(".grid-container.bomber-grid");
+gridContainerBomber.innerHTML = bomberGridHtml;
 
 let boxes = document.querySelectorAll(".grid-container.snake-grid > span");
 let boxesBomber = document.querySelectorAll(".grid-container.bomber-grid > span");
