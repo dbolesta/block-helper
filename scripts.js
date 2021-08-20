@@ -5,13 +5,7 @@
 ////////////////////
 let down = false; // keep track if mouse is down (so we can drag grid entries)
 let paintState = "block"; // which object is select and should be painted on grid
-
-
-let selectedCharacter = "snake";
-// let test2 = [
-//    {key: "ok", array: [1, 2, 3]},
-//    {key: "okk", array: [11, 22, 33]},{key: "okkk", array: [111, 222, 333]}, 
-// ];
+let selectedCharacter = "snake"; // which grid is selected, and thusly which objects are available
 
 
 // master key/position array reference for each attack
@@ -37,11 +31,11 @@ let bomberKeysAndPosArrays = {
 
 // cache references
 ////////////////////
-let gridContainer = document.querySelector(".grid-container");
-let gridContainerBomber = document.querySelector(".grid-container-bomber");
+let gridContainerSnake = document.querySelector(".grid-container.snake-grid");
+let gridContainerBomber = document.querySelector(".grid-container.bomber-grid");
 
-let boxes = document.querySelectorAll(".grid-container > span");
-let boxesBomber = document.querySelectorAll(".grid-container-bomber > span");
+let boxes = document.querySelectorAll(".grid-container.snake-grid > span");
+let boxesBomber = document.querySelectorAll(".grid-container.bomber-grid > span");
 
 let characterSelectors = document.querySelectorAll(".character-container");
 let objectSelectors = document.querySelectorAll(".object-selector");
@@ -117,7 +111,7 @@ function handleObjectSelect(e) {
 
    // update paintstate
    paintState = el.dataset.paintState;
-   gridContainer.dataset.paintState = paintState;
+   gridContainerSnake.dataset.paintState = paintState;
    gridContainerBomber.dataset.paintState = paintState;
 
 }
@@ -133,11 +127,11 @@ function updateActiveGrid(){
    console.log("selected character is");
    console.log(selectedCharacter);
    if (selectedCharacter == "snake"){
-      gridContainer.classList.add("active-grid");
+      gridContainerSnake.classList.add("active-grid");
       gridContainerBomber.classList.remove("active-grid");
    }
    else if (selectedCharacter == "bomber"){
-      gridContainer.classList.remove("active-grid");
+      gridContainerSnake.classList.remove("active-grid");
       gridContainerBomber.classList.add("active-grid");
    }
 }

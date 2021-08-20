@@ -85,7 +85,7 @@ textarea {
   flex: 6;
 }
 
-.grid-container {
+.grid-container.snake-grid {
   /* display: grid; */
   display: none;
   background-color: #c7f0d8;
@@ -107,7 +107,7 @@ textarea {
     '. . . . . . . . . . . . . . . . . . . . . . . . . . . .';
   gap: 0px 0px;
 }
-.grid-container-bomber {
+.grid-container.bomber-grid {
   /* display: grid; */
   display: none;
   background-color: #c7f0d8;
@@ -137,13 +137,11 @@ textarea {
   gap: 0px 0px;
 }
 
-.grid-container.active-grid,
-.grid-container-bomber.active-grid {
+.grid-container.active-grid {
   display: grid;
 }
 
-.grid-container span,
-.grid-container-bomber span {
+.grid-container span {
   position: relative;
   flex-basis: calc(33.333% - 10px);
   /* border: 1px solid #43523d; */
@@ -159,70 +157,56 @@ textarea {
   user-select: none;
 }
 
-.grid-container span::before,
-.grid-container-bomber span::before {
+.grid-container span::before {
   content: '';
   display: block;
   padding-top: 100%;
 }
 
 /* hovering */
-.grid-container[data-paint-state='block'] span:hover,
-.grid-container-bomber[data-paint-state='block'] span:hover {
+.grid-container[data-paint-state='block'] span:hover {
   background-color: rgba(67, 82, 61, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container[data-paint-state='food'] span:hover,
-.grid-container-bomber[data-paint-state='food'] span:hover {
+.grid-container[data-paint-state='food'] span:hover {
   background-color: rgba(230, 231, 146, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container[data-paint-state='bigblock'] span:hover,
-.grid-container-bomber[data-paint-state='bigblock'] span:hover {
+.grid-container[data-paint-state='bigblock'] span:hover {
   background-color: rgba(78, 179, 153, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container[data-paint-state='door'] span:hover,
-.grid-container-bomber[data-paint-state='door'] span:hover {
+.grid-container[data-paint-state='door'] span:hover {
   background-color: rgba(78, 179, 153, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container[data-paint-state='key'] span:hover,
-.grid-container-bomber[data-paint-state='key'] span:hover {
+.grid-container[data-paint-state='key'] span:hover {
   background-color: rgba(78, 179, 153, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container[data-paint-state='brickblock'] span:hover,
-.grid-container-bomber[data-paint-state='brickblock'] span:hover {
+.grid-container[data-paint-state='brickblock'] span:hover {
   background-color: rgba(192, 127, 66, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container[data-paint-state='brickblocksmall'] span:hover,
-.grid-container-bomber[data-paint-state='brickblocksmall']
-  span:hover {
+.grid-container[data-paint-state='brickblocksmall'] span:hover {
   background-color: rgba(167, 95, 27, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container[data-paint-state='flameHead'] span:hover,
-.grid-container-bomber[data-paint-state='flameHead'] span:hover {
+.grid-container[data-paint-state='flameHead'] span:hover {
   background-color: rgba(219, 61, 21, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
 
 /* selected */
-.grid-container span[data-paint-state='block'].selected,
-.grid-container-bomber span[data-paint-state='block'].selected {
+.grid-container span[data-paint-state='block'].selected {
   background-color: rgb(67, 82, 61);
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container span[data-paint-state='food'].selected,
-.grid-container-bomber span[data-paint-state='food'].selected {
+.grid-container span[data-paint-state='food'].selected {
   background-color: #e8d15d;
   color: rgba(255, 255, 255, 0.4);
 }
-.grid-container span[data-paint-state='brickblocksmall'].selected,
-.grid-container-bomber
-  span[data-paint-state='brickblocksmall'].selected {
+.grid-container span[data-paint-state='brickblocksmall'].selected {
   background-color: #bd6428;
   color: rgba(255, 255, 255, 0.4);
 }
