@@ -79,11 +79,14 @@ textarea {
 /* obejct selectors */
 .object-selectors {
   /* border: 1px solid black; */
-  display: flex;
+  display: none;
   flex-direction: row;
   align-content: center;
   justify-content: center;
   margin: 0.25rem 0;
+}
+.object-selectors.selected {
+  display: flex;
 }
 .object-selector {
   background-color: white;

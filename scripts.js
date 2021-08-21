@@ -42,6 +42,7 @@ let boxesBomber = document.querySelectorAll(".grid-container.bomber-grid > span"
 
 let characterSelectors = document.querySelectorAll(".character-selector");
 let objectSelectors = document.querySelectorAll(".object-selector");
+let objectSelectorContainers = document.querySelectorAll(".object-selectors");
 
 let getCodeBtn = document.querySelector(".get-code");
 let clearSelectedBtn = document.querySelector(".clear-selected");
@@ -131,7 +132,18 @@ function handleCharacterSelect(e){
 
 
    updateActiveGrid();
+   updateActiveObjectSelectorContainer();
 }
+
+function updateActiveObjectSelectorContainer() {
+   objectSelectorContainers.forEach(obj => {
+      obj.classList.remove("selected");
+   });
+   if (selectedCharacter == "snake")
+      objectSelectorContainers[0].classList.add("selected");
+   else if (selectedCharacter == "bomber")
+      objectSelectorContainers[1].classList.add("selected");
+} // end updateActiveObjectSelectorContainer
 
 function updateActiveGrid(){
    console.log("selected character is");
