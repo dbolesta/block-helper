@@ -13,6 +13,114 @@
   </head>
   <body>
     <div class="main-container">
+      <div class="grid">
+        <div class="selectors-panel">
+          <div class="character-selector-container">
+            <div class="character-selectors">
+              <div
+                class="character-selector selected"
+                data-character="snake"
+              >
+                <img src="imgs/snake_head.png" alt="snake" />
+              </div>
+              <div class="character-selector" data-character="bomber">
+                <img src="imgs/bomber.png" alt="bomber" />
+              </div>
+            </div>
+            <!-- ./character-selectors -->
+          </div>
+          <!-- ./character-selector-contaienr-->
+
+          <div class="object-selectors-container">
+            <div class="object-selectors">
+              <div
+                class="object-selector block selected"
+                data-paint-state="block"
+              >
+                <img src="imgs/block.png" alt="block" />
+              </div>
+              <div
+                class="object-selector food"
+                data-paint-state="food"
+              >
+                <img src="imgs/food.png" alt="food" />
+              </div>
+              <div
+                class="object-selector bigblock"
+                data-paint-state="bigblock"
+              >
+                <img src="imgs/bigblock.png" alt="bigblock" />
+              </div>
+              <div
+                class="object-selector door"
+                data-paint-state="door"
+              >
+                <img src="imgs/door.png" alt="door" />
+              </div>
+              <div class="object-selector key" data-paint-state="key">
+                <img src="imgs/key.png" alt="key" />
+              </div>
+              <div
+                class="object-selector brickblock"
+                data-paint-state="brickblock"
+              >
+                <img src="imgs/brickblock.png" alt="key" />
+              </div>
+              <div
+                class="object-selector brickblocksmall"
+                data-paint-state="brickblocksmall"
+              >
+                <img
+                  src="imgs/brickblocksmall.png"
+                  alt="brickblocksmall"
+                />
+              </div>
+              <div
+                class="object-selector flameHead"
+                data-paint-state="flameHead"
+              >
+                <img src="imgs/flamehead.png" alt="flameHead" />
+              </div>
+              <div
+                class="object-selector bomber"
+                data-paint-state="bomber"
+              >
+                <img src="imgs/bomber.png" alt="bomber" />
+              </div>
+            </div>
+            <!-- ./object-selectors -->
+          </div>
+          <!-- ./object-selectors-container -->
+        </div>
+        <!-- ./selectors-panel -->
+
+        <!-- prettier-ignore -->
+        <div class="grid-container snake-grid active-grid" data-paint-state="block">
+          <!-- grid will be added via js -->
+        </div>
+        <!-- ./end grid-container (for snake)-->
+
+        <div
+          class="grid-container bomber-grid"
+          data-paint-state="block"
+        >
+          <!-- grid will be added via js -->
+        </div>
+        <!-- ./end grid-container-bomber-->
+
+        <div
+          style="
+            font-style: italic;
+            margin-top: 5px;
+            color: rgba(174, 0, 255, 1);
+          "
+        >
+          * enters towards 6, -1
+        </div>
+        <!-- ./grid-container -->
+      </div>
+      <!-- ./grid -->
+
       <div class="panel">
         <button class="clear-selected">Clear Selected</button>
         <button class="get-code">Get Code</button>
@@ -31,96 +139,7 @@
           rows="50"
         ></textarea>
       </div>
-      <div class="grid">
-        <div class="character-selector-container">
-          <div class="character-container" data-character="snake">
-            Snake
-          </div>
-          <div class="character-container" data-character="bomber">
-            Bomber
-          </div>
-        </div>
-        <!-- ./character-selector-contaienr-->
-
-        <div class="object-selectors-container">
-          <div class="object-selectors">
-            <div
-              class="object-selector block selected"
-              data-paint-state="block"
-            >
-              <img src="imgs/block.png" alt="block" />
-            </div>
-            <div class="object-selector food" data-paint-state="food">
-              <img src="imgs/food.png" alt="food" />
-            </div>
-            <div
-              class="object-selector bigblock"
-              data-paint-state="bigblock"
-            >
-              <img src="imgs/bigblock.png" alt="bigblock" />
-            </div>
-            <div class="object-selector door" data-paint-state="door">
-              <img src="imgs/door.png" alt="door" />
-            </div>
-            <div class="object-selector key" data-paint-state="key">
-              <img src="imgs/key.png" alt="key" />
-            </div>
-            <div
-              class="object-selector brickblock"
-              data-paint-state="brickblock"
-            >
-              <img src="imgs/brickblock.png" alt="key" />
-            </div>
-            <div
-              class="object-selector brickblocksmall"
-              data-paint-state="brickblocksmall"
-            >
-              <img
-                src="imgs/brickblocksmall.png"
-                alt="brickblocksmall"
-              />
-            </div>
-            <div
-              class="object-selector flameHead"
-              data-paint-state="flameHead"
-            >
-              <img src="imgs/flamehead.png" alt="flameHead" />
-            </div>
-            <div
-              class="object-selector bomber"
-              data-paint-state="bomber"
-            >
-              <img src="imgs/bomber.png" alt="bomber" />
-            </div>
-          </div>
-          <!-- ./object-selectors -->
-        </div>
-        <!-- ./object-selectors-container -->
-
-        <!-- prettier-ignore -->
-        <div class="grid-container snake-grid active-grid" data-paint-state="block">
-          
-        </div>
-        <!-- ./end grid-container (for snake)-->
-
-        <div
-          class="grid-container bomber-grid"
-          data-paint-state="block"
-        ></div>
-        <!-- ./end grid-container-bomber-->
-
-        <div
-          style="
-            font-style: italic;
-            margin-top: 5px;
-            color: rgba(174, 0, 255, 1);
-          "
-        >
-          * enters towards 6, -1
-        </div>
-        <!-- ./grid-container -->
-      </div>
-      <!-- ./grid -->
+      <!-- end .panel-->
     </div>
     <!-- ./main-container-->
 

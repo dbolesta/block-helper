@@ -32,15 +32,15 @@ let bomberKeysAndPosArrays = {
 // cache references
 ////////////////////
 let gridContainerSnake = document.querySelector(".grid-container.snake-grid");
-gridContainerSnake.innerHTML = snakeGridHtml;
+gridContainerSnake.innerHTML = snakeGridHtml; // insert grid into DOM
 
 let gridContainerBomber = document.querySelector(".grid-container.bomber-grid");
-gridContainerBomber.innerHTML = bomberGridHtml;
+gridContainerBomber.innerHTML = bomberGridHtml; // insert grid into DOM
 
 let boxes = document.querySelectorAll(".grid-container.snake-grid > span");
 let boxesBomber = document.querySelectorAll(".grid-container.bomber-grid > span");
 
-let characterSelectors = document.querySelectorAll(".character-container");
+let characterSelectors = document.querySelectorAll(".character-selector");
 let objectSelectors = document.querySelectorAll(".object-selector");
 
 let getCodeBtn = document.querySelector(".get-code");
@@ -122,7 +122,14 @@ function handleObjectSelect(e) {
 
 // update character select
 function handleCharacterSelect(e){
-   selectedCharacter = e.target.dataset.character;
+   selectedCharacter = e.currentTarget.dataset.character;
+
+   characterSelectors.forEach(cSelector => {
+      cSelector.classList.remove("selected");
+   });
+   e.currentTarget.classList.add("selected");
+
+
    updateActiveGrid();
 }
 
