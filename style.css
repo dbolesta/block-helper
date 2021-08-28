@@ -226,6 +226,10 @@ textarea {
   background-color: rgba(219, 61, 21, 0.3);
   color: rgba(255, 255, 255, 0.4);
 }
+.grid-container[data-paint-state='springBoard'] span:hover {
+  background-color: rgba(226, 149, 61, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
 
 /* selected */
 .grid-container span[data-paint-state='block'].selected {
@@ -288,6 +292,14 @@ textarea {
   z-index: 9;
 }
 .bomber-ongrid {
+  height: 100%;
+  position: absolute;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  z-index: 9;
+}
+.springBoard-ongrid {
   height: 100%;
   position: absolute;
   image-rendering: pixelated;

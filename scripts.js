@@ -23,6 +23,7 @@ let bomberKeysAndPosArrays = {
    "brickblocksmall": [],
    "flameHead": [],
    "bomber": [],
+   "springBoard": [],
 };
 
 
@@ -188,6 +189,7 @@ function toggleSelected(e) {
    } 
    else {
       // for some (usually 2x2, we append an img instead of filling the cell)
+      // extract this to a function, better html creation for them
       if (paintState == "bigblock" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<img src="imgs/bigblock.png" class="bigblock-ongrid" onclick="removeImgItem(event)"/>`;
       }
@@ -205,6 +207,9 @@ function toggleSelected(e) {
       }
       else if (paintState == "bomber" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<img src="imgs/bomber.png" class="bomber-ongrid" onclick="removeImgItem(event)"/>`;
+      }
+      else if (paintState == "springBoard" && !el.classList.contains("selected")) {
+         e.currentTarget.innerHTML = `<img src="imgs/springBoard.png" class="springBoard-ongrid" onclick="removeImgItem(event)"/>`;
       }
 
       // img or not, select the grid and update paintstate
@@ -375,6 +380,10 @@ function getTheCode() {
          else if (box.dataset.paintState == "bomber") {
             bomberKeysAndPosArrays.bomber.push(`"${boxX},${boxY}"`);
             comment += `💣`;
+         }
+         else if (box.dataset.paintState == "springBoard") {
+            bomberKeysAndPosArrays.springBoard.push(`"${boxX},${boxY}"`);
+            comment += `➰`;
          }
 
       } else {
