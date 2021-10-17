@@ -128,7 +128,7 @@ function handleObjectSelect(e) {
 }
 
 // update character select
-function handleCharacterSelect(e){
+function handleCharacterSelect(e) {
    selectedCharacter = e.currentTarget.dataset.character;
 
    characterSelectors.forEach(cSelector => {
@@ -153,14 +153,14 @@ function updateActiveObjectSelectorContainer() {
 } // end updateActiveObjectSelectorContainer
 
 // update the grid based on selected character
-function updateActiveGrid(){
+function updateActiveGrid() {
    console.log("selected character is");
    console.log(selectedCharacter);
-   if (selectedCharacter == "snake"){
+   if (selectedCharacter == "snake") {
       gridContainerSnake.classList.add("active-grid");
       gridContainerBomber.classList.remove("active-grid");
    }
-   else if (selectedCharacter == "bomber"){
+   else if (selectedCharacter == "bomber") {
       gridContainerSnake.classList.remove("active-grid");
       gridContainerBomber.classList.add("active-grid");
    }
@@ -204,9 +204,9 @@ function handleGridImgClick(e) {
       thisJsonContainer.classList.add("active");
    }
 
-// remove grid img
+   // remove grid img
 
-   if (paintState == "eraser"){
+   if (paintState == "eraser") {
       let gridCell = e.target.parentElement.parentElement; // actual grid cell
       gridCell.classList.remove("selected");
       gridCell.removeAttribute("data-paint-state");
@@ -236,7 +236,7 @@ function fillEmptyCell(e) {
    // generate an html img string for the cell
    generateGridImg(e);
 
-      
+
 
    // mark cell as selected and update paintstate
    el.classList.add("selected");
@@ -245,10 +245,10 @@ function fillEmptyCell(e) {
 } // end fillEmptyCell
 
 // create html to fill the cell with grid img
-function generateGridImg(e){
+function generateGridImg(e) {
    console.log("dataset", e.target.getAttribute("data-paint-state")); // TODO: figure out why this is undefined
-   let html = 
-   `<div class="grid-img-container">
+   let html =
+      `<div class="grid-img-container">
       <div class="json-container" onclick="handleJsonContainerClick(event)">
          <p class="close-this-json">x</p>
          <p class="json-header">${e.target.dataset["paint-state"]}: ${e.target.dataset.x},${e.target.dataset.y}<p>
@@ -260,7 +260,7 @@ function generateGridImg(e){
    </div>`;
    e.currentTarget.innerHTML = html;
 } // end generateGridImg
-
+// TODO: create other script file maybe to store different template examples for each object
 
 
 // can drag select on grid
@@ -278,8 +278,8 @@ function generateGridImg(e){
 
 
 
-function handleJsonContainerClick(e){
-   
+function handleJsonContainerClick(e) {
+
 
    // console.log("e", e);
    // console.log("e.currentTarget", e.currentTarget);
@@ -296,21 +296,22 @@ function handleJsonContainerClick(e){
    let thisGridCell = e.currentTarget.parentElement.parentElement;
    let thisJsonContainer = e.currentTarget;
 
-   if (el.classList.contains("close-this-json")){
+   if (el.classList.contains("close-this-json")) {
       thisJsonContainer.classList.remove("active");
    }
 
-   if (el.classList.contains("update-this-json")){
+   if (el.classList.contains("update-this-json")) {
       let jsonInputValue = thisJsonContainer.querySelector(".json-input").value;
-      if (jsonInputValue == ""){
+      if (jsonInputValue == "") {
          thisGridCell.removeAttribute("data-json");
       }
       else {
          thisGridCell.setAttribute("data-json", jsonInputValue);
       }
+      thisJsonContainer.classList.remove("active");
 
    }
-   
+
    console.log(thisJsonContainer);
 
 } // handleJsonContainerClick
@@ -394,10 +395,10 @@ function getTheCode() {
    // determin current box
    let currentBoxes;
 
-   if (selectedCharacter == "snake"){
+   if (selectedCharacter == "snake") {
       currentBoxes = boxes;
    }
-   else if (selectedCharacter == "bomber"){
+   else if (selectedCharacter == "bomber") {
       currentBoxes = boxesBomber;
    }
 
@@ -524,7 +525,7 @@ function getTheCode() {
    } // end loop
 
 
-   
+
 
    // // this should be the end
 
@@ -535,10 +536,6 @@ function getTheCode() {
    console.log(comment);
    codeBoxEl.value = `${comment}\n\n${code}`;
 }
-
-
-
-
 
 
 // UTILS
