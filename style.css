@@ -183,7 +183,7 @@ textarea {
   color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
   font-family: monospace;
-  font-size: 10px;
+  font-size: 6px;
   user-select: none;
 }
 
@@ -250,60 +250,47 @@ textarea {
   font-weight: 800;
 }
 
-/* big block image added on click */
-.bigblock-ongrid {
-  left: 0;
-  height: 200%;
-  height: 200%;
+/* IMAGES THAT APPEAR ON THE GRID REPRESENTING OBJECTS */
+/* parent */
+.grid-img {
   position: absolute;
-  top: 0;
+  z-index: 9;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
-  z-index: 9;
+}
+
+.bigblock-ongrid {
+  left: 0;
+  top: 0;
+  height: 200%;
+  height: 200%;
 }
 .doorkey-ongrid {
   height: 150%;
   height: 150%;
-  position: absolute;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  z-index: 9;
+  top: -25%;
+  left: -25%;
 }
 .brickblock-ongrid {
   left: 0;
-  height: 200%;
-  height: 200%;
-  position: absolute;
   top: 0;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  z-index: 9;
+  height: 200%;
+  height: 200%;
 }
 
 .flameHead-ongrid {
-  height: 150%;
-  position: absolute;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  z-index: 9;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 .bomber-ongrid {
   height: 100%;
-  position: absolute;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  z-index: 9;
+  top: 0;
+  left: 0;
 }
 .springBoard-ongrid {
   height: 100%;
-  position: absolute;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  z-index: 9;
+  top: 0;
+  left: 0;
 }

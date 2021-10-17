@@ -93,8 +93,13 @@ document.addEventListener('mouseup', () => down = false);
 
 
 function removeImgItem(e) {
-   console.log(e);
-   let parent = e.currentTarget.parentElement;
+   e.stopPropagation();
+   console.log("e", e);
+   console.log("e.target", e.target);
+   console.log("e.target.parentElement", e.target.parentElement);
+   console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
+   console.log("e.target.parentElement.classList", e.target.parentElement.classList);
+   let parent = e.target.parentElement.parentElement;
    parent.classList.remove("selected");
    parent.removeAttribute("data-paint-state");
    let resetHTML = `${parent.dataset.x},${parent.dataset.y}`;
@@ -191,25 +196,25 @@ function toggleSelected(e) {
       // for some (usually 2x2, we append an img instead of filling the cell)
       // extract this to a function, better html creation for them
       if (paintState == "bigblock" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<img src="imgs/bigblock.png" class="bigblock-ongrid" onclick="removeImgItem(event)"/>`;
+         e.currentTarget.innerHTML = `<div><img src="imgs/bigblock.png" class="grid-img bigblock-ongrid" onclick="removeImgItem(event)"/></div>`;
       }
       else if (paintState == "door" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<img src="imgs/door.png" class="doorkey-ongrid" onclick="removeImgItem(event)"/>`;
+         e.currentTarget.innerHTML = `<div><img src="imgs/door.png" class="grid-img doorkey-ongrid" onclick="removeImgItem(event)"/></div>`;
       }
       else if (paintState == "key" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<img src="imgs/key.png" class="doorkey-ongrid" onclick="removeImgItem(event)"/>`;
+         e.currentTarget.innerHTML = `<div><img src="imgs/key.png" class="grid-img doorkey-ongrid" onclick="removeImgItem(event)"/></div>`;
       }
       else if (paintState == "brickblock" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<img src="imgs/brickblock.png" class="brickblock-ongrid" onclick="removeImgItem(event)"/>`;
+         e.currentTarget.innerHTML = `<div><img src="imgs/brickblock.png" class="grid-img brickblock-ongrid" onclick="removeImgItem(event)"/></div>`;
       }
       else if (paintState == "flameHead" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<img src="imgs/flamehead.png" class="flameHead-ongrid" onclick="removeImgItem(event)"/>`;
+         e.currentTarget.innerHTML = `<div><img src="imgs/flamehead.png" class="grid-img flameHead-ongrid" onclick="removeImgItem(event)"/></div>`;
       }
       else if (paintState == "bomber" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<img src="imgs/bomber.png" class="bomber-ongrid" onclick="removeImgItem(event)"/>`;
+         e.currentTarget.innerHTML = `<div><img src="imgs/bomber.png" class="grid-img bomber-ongrid" onclick="removeImgItem(event)"/></div>`;
       }
       else if (paintState == "springBoard" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<img src="imgs/springBoard.png" class="springBoard-ongrid" onclick="removeImgItem(event)"/>`;
+         e.currentTarget.innerHTML = `<div><img src="imgs/springBoard.png" class="grid-img springBoard-ongrid" onclick="removeImgItem(event)"/></div>`;
       }
 
       // img or not, select the grid and update paintstate
