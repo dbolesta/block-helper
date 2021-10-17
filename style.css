@@ -232,7 +232,7 @@ textarea {
 }
 
 /* selected */
-.grid-container span[data-paint-state='block'].selected {
+/* .grid-container span[data-paint-state='block'].selected {
   background-color: rgb(67, 82, 61);
   color: rgba(255, 255, 255, 0.4);
 }
@@ -243,7 +243,7 @@ textarea {
 .grid-container span[data-paint-state='brickblocksmall'].selected {
   background-color: #bd6428;
   color: rgba(255, 255, 255, 0.4);
-}
+} */
 
 .grid-container span.snake-enter {
   color: rgba(174, 0, 255, 1) !important;
@@ -265,6 +265,24 @@ textarea {
   top: 0;
   height: 200%;
   height: 200%;
+}
+.block-ongrid {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+.food-ongrid {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+.brickblocksmall-ongrid {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
 }
 .doorkey-ongrid {
   height: 150%;

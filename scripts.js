@@ -58,13 +58,15 @@ characterSelectors.forEach(cSelector => {
 });
 
 boxes.forEach(box => {
-   box.addEventListener("mousedown", toggleSelected);
+   box.addEventListener("mousedown", fillEmptyCell);
    box.addEventListener("mouseenter", toggleSelectedIfDown);
+   box.classList.add("cell"); // dynamically add cell class to all cells
 });
 
 boxesBomber.forEach(boxBomber => {
-   boxBomber.addEventListener("mousedown", toggleSelected);
+   boxBomber.addEventListener("mousedown", fillEmptyCell);
    boxBomber.addEventListener("mouseenter", toggleSelectedIfDown);
+   boxBomber.classList.add("cell"); // dynamically add cell class to all cells
 });
 
 getCodeBtn.addEventListener('click', getTheCode);
@@ -93,18 +95,19 @@ document.addEventListener('mouseup', () => down = false);
 
 
 function removeImgItem(e) {
-   e.stopPropagation();
-   console.log("e", e);
-   console.log("e.target", e.target);
-   console.log("e.target.parentElement", e.target.parentElement);
-   console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
-   console.log("e.target.parentElement.classList", e.target.parentElement.classList);
+   // e.stopPropagation();
+   // console.log("e", e);
+   // console.log("e.target", e.target);
+   // console.log("e.target.parentElement", e.target.parentElement);
+   // console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
+   // console.log("e.target.parentElement.classList", e.target.parentElement.classList);
    let parent = e.target.parentElement.parentElement;
    parent.classList.remove("selected");
    parent.removeAttribute("data-paint-state");
    let resetHTML = `${parent.dataset.x},${parent.dataset.y}`;
    parent.innerHTML = resetHTML;
 }
+
 
 
 // functions
@@ -178,12 +181,18 @@ function clearSelected() {
 } // end clearSelected
 
 
-// fills or unfills actual block on the grid
-function toggleSelected(e) {
+// fills empty cell on grid
+function fillEmptyCell(e) {
    let el = e.target; // this cell
 
+   // if this is not an empty cell, cancel function
+   if (!el.classList.contains("cell")) return;
+
+   console.log("el", el);
+   console.log("e", e);
+
    // cancel if bigblock clicked
-   if (el.classList.contains("bigblock-ongrid")) return;
+   // if (el.classList.contains("bigblock-ongrid")) return;
 
    
    if (el.classList.contains("selected")) {
@@ -197,6 +206,15 @@ function toggleSelected(e) {
       // extract this to a function, better html creation for them
       if (paintState == "bigblock" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<div><img src="imgs/bigblock.png" class="grid-img bigblock-ongrid" onclick="removeImgItem(event)"/></div>`;
+      }
+      else if (paintState == "block" && !el.classList.contains("selected")) {
+         e.currentTarget.innerHTML = `<div><img src="imgs/block.png" class="grid-img block-ongrid" onclick="removeImgItem(event)"/></div>`;
+      }
+      else if (paintState == "food" && !el.classList.contains("selected")) {
+         e.currentTarget.innerHTML = `<div><img src="imgs/food.png" class="grid-img food-ongrid" onclick="removeImgItem(event)"/></div>`;
+      }
+      else if (paintState == "brickblocksmall" && !el.classList.contains("selected")) {
+         e.currentTarget.innerHTML = `<div><img src="imgs/brickblocksmall.png" class="grid-img brickblocksmall-ongrid" onclick="removeImgItem(event)"/></div>`;
       }
       else if (paintState == "door" && !el.classList.contains("selected")) {
          e.currentTarget.innerHTML = `<div><img src="imgs/door.png" class="grid-img doorkey-ongrid" onclick="removeImgItem(event)"/></div>`;
