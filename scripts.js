@@ -233,7 +233,17 @@ function fillEmptyCell(e) {
 
 // create html to fill the cell with grid img
 function generateGridImg(e){
-   let html = `<div><img src="imgs/${paintState}.png" class="grid-img ${paintState}-ongrid" onclick="handleGridImgClick(event)"/></div>`;
+   let html = 
+   `<div class="grid-img-container">
+      <div class="json-container" onclick="handleJsonContainerClick(event)">
+         <p class="close-this-json">x</p>
+         <p class="json-header">${e.target.dataset["paint-State"]}: ${e.target.dataset.x},${e.target.dataset.y}<p>
+         <p class="json-template">{\"direction\": \"left\", \"size\": 3, \"hope\": true, \"speed\": 2}</p>
+         <p><input type="text" class="json-flamehead-direction" value=""></p>
+         <input type="button" class="update-this-json" value="Update">
+      </div>
+      <img src="imgs/${paintState}.png" class="grid-img ${paintState}-ongrid" onclick="handleGridImgClick(event)" draggable="false"/>
+   </div>`;
    e.currentTarget.innerHTML = html;
 } // end generateGridImg
 
@@ -254,6 +264,22 @@ function generateGridImg(e){
 
 
 
+function handleJsonContainerClick(e){
+   let el = e.target;
+
+   console.log("e", e);
+   console.log("e.currentTarget", e.currentTarget);
+   console.log("e.currentTarget.parentElement", e.currentTarget.parentElement);
+   console.log("e.currentTarget.parentElement.parentElement", e.currentTarget.parentElement.parentElement);
+   console.log("e.target", e.target);
+   console.log("e.target.parentElement", e.target.parentElement);
+   console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
+   console.log("---");
+
+
+   // if (el.classList.contains("close-this-json")){
+
+}
 
 
 
