@@ -284,7 +284,13 @@ textarea {
   height: 100%;
   width: 100%;
 }
-.doorkey-ongrid {
+.key-ongrid {
+  height: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+}
+.door-ongrid {
   height: 150%;
   height: 150%;
   top: -25%;

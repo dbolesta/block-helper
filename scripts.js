@@ -1,7 +1,7 @@
 // ▩▢▢▢▢▢▩▩
 // ▩▩▩▩▢▢▢▢
 
-// states
+// STATES
 ////////////////////
 let down = false; // keep track if mouse is down (so we can drag grid entries)
 let paintState = "block"; // which object is select and should be painted on grid
@@ -30,7 +30,7 @@ let bomberKeysAndPosArrays = {
 
 
 
-// cache references
+// CACHE REFERENCES
 ////////////////////
 let gridContainerSnake = document.querySelector(".grid-container.snake-grid");
 gridContainerSnake.innerHTML = snakeGridHtml; // insert grid into DOM
@@ -51,7 +51,7 @@ let clearSelectedBtn = document.querySelector(".clear-selected");
 let codeBoxEl = document.querySelector(".code-text-area");
 let codeNameEl = document.querySelector(".code-name");
 
-// event listeners
+// EVENT LISTENERS
 ////////////////////
 characterSelectors.forEach(cSelector => {
    cSelector.addEventListener("click", handleCharacterSelect);
@@ -59,13 +59,13 @@ characterSelectors.forEach(cSelector => {
 
 boxes.forEach(box => {
    box.addEventListener("mousedown", fillEmptyCell);
-   box.addEventListener("mouseenter", toggleSelectedIfDown);
+   // box.addEventListener("mouseenter", toggleSelectedIfDown);
    box.classList.add("cell"); // dynamically add cell class to all cells
 });
 
 boxesBomber.forEach(boxBomber => {
    boxBomber.addEventListener("mousedown", fillEmptyCell);
-   boxBomber.addEventListener("mouseenter", toggleSelectedIfDown);
+   // boxBomber.addEventListener("mouseenter", toggleSelectedIfDown);
    boxBomber.classList.add("cell"); // dynamically add cell class to all cells
 });
 
@@ -79,8 +79,16 @@ objectSelectors.forEach(obj => {
 });
 
 // set if mouse is down or not
-document.addEventListener('mousedown', () => down = true);
-document.addEventListener('mouseup', () => down = false);
+document.addEventListener('mousedown', (e) => {
+   // ignore if right click
+   if (e.button == 2) return;
+   down = true;
+});
+document.addEventListener('mouseup', (e) => {
+   // ignore if right click
+   if (e.button == 2) return;
+   down = false;
+});
 
 // remove bigblock-ongrid img
 // gridContainer.addEventListener('click',function(e){
@@ -94,24 +102,14 @@ document.addEventListener('mouseup', () => down = false);
 
 
 
-function removeImgItem(e) {
-   // e.stopPropagation();
-   // console.log("e", e);
-   // console.log("e.target", e.target);
-   // console.log("e.target.parentElement", e.target.parentElement);
-   // console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
-   // console.log("e.target.parentElement.classList", e.target.parentElement.classList);
-   let parent = e.target.parentElement.parentElement;
-   parent.classList.remove("selected");
-   parent.removeAttribute("data-paint-state");
-   let resetHTML = `${parent.dataset.x},${parent.dataset.y}`;
-   parent.innerHTML = resetHTML;
-}
 
 
 
-// functions
+
+// FUNCTIONS
 ////////////////////
+
+// Panel Functions for selecting paint brushes
 // change paint brush
 function handleObjectSelect(e) {
    let el = e.currentTarget;
@@ -129,7 +127,6 @@ function handleObjectSelect(e) {
 
 }
 
-
 // update character select
 function handleCharacterSelect(e){
    selectedCharacter = e.currentTarget.dataset.character;
@@ -144,6 +141,7 @@ function handleCharacterSelect(e){
    updateActiveObjectSelectorContainer();
 }
 
+// Select Which grid we are painting on
 function updateActiveObjectSelectorContainer() {
    objectSelectorContainers.forEach(obj => {
       obj.classList.remove("selected");
@@ -154,6 +152,7 @@ function updateActiveObjectSelectorContainer() {
       objectSelectorContainers[1].classList.add("selected");
 } // end updateActiveObjectSelectorContainer
 
+// update the grid based on selected character
 function updateActiveGrid(){
    console.log("selected character is");
    console.log(selectedCharacter);
@@ -168,7 +167,9 @@ function updateActiveGrid(){
 }
 
 
+// GRID PAINTING FUNCTIONS
 
+// reset entire grid
 function clearSelected() {
    boxes.forEach(box => {
       box.classList.remove("selected");
@@ -181,74 +182,65 @@ function clearSelected() {
 } // end clearSelected
 
 
+
+function removeImgItem(e) {
+   // e.stopPropagation();
+   // console.log("e", e);
+   // console.log("e.target", e.target);
+   // console.log("e.target.parentElement", e.target.parentElement);
+   // console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
+   // console.log("e.target.parentElement.classList", e.target.parentElement.classList);
+
+   
+   let gridCell = e.target.parentElement.parentElement; // actual grid cell
+   gridCell.classList.remove("selected");
+   gridCell.removeAttribute("data-paint-state");
+   let resetHTML = `${gridCell.dataset.x},${gridCell.dataset.y}`;
+   gridCell.innerHTML = resetHTML;
+}
+
+
 // fills empty cell on grid
 function fillEmptyCell(e) {
    let el = e.target; // this cell
 
    // if this is not an empty cell, cancel function
    if (!el.classList.contains("cell")) return;
+   // if already selected, cancel function
+   if (el.classList.contains("selected")) return;
+   // ignore right click to fill cells
+   if (e.button == 2) return;
 
    console.log("el", el);
    console.log("e", e);
 
-   // cancel if bigblock clicked
-   // if (el.classList.contains("bigblock-ongrid")) return;
+   // generate an html img string for the cell
+   generateGridImg(e);
 
-   
-   if (el.classList.contains("selected")) {
-      // if already selected, unselect
-      el.classList.remove("selected");
-      el.removeAttribute("data-paint-state");
+      
 
-   } 
-   else {
-      // for some (usually 2x2, we append an img instead of filling the cell)
-      // extract this to a function, better html creation for them
-      if (paintState == "bigblock" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/bigblock.png" class="grid-img bigblock-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
-      else if (paintState == "block" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/block.png" class="grid-img block-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
-      else if (paintState == "food" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/food.png" class="grid-img food-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
-      else if (paintState == "brickblocksmall" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/brickblocksmall.png" class="grid-img brickblocksmall-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
-      else if (paintState == "door" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/door.png" class="grid-img doorkey-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
-      else if (paintState == "key" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/key.png" class="grid-img doorkey-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
-      else if (paintState == "brickblock" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/brickblock.png" class="grid-img brickblock-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
-      else if (paintState == "flameHead" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/flamehead.png" class="grid-img flameHead-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
-      else if (paintState == "bomber" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/bomber.png" class="grid-img bomber-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
-      else if (paintState == "springBoard" && !el.classList.contains("selected")) {
-         e.currentTarget.innerHTML = `<div><img src="imgs/springBoard.png" class="grid-img springBoard-ongrid" onclick="removeImgItem(event)"/></div>`;
-      }
+   // mark cell as selected and update paintstate
+   el.classList.add("selected");
+   el.setAttribute("data-paint-state", paintState);
 
-      // img or not, select the grid and update paintstate
-      el.classList.add("selected");
-      el.setAttribute("data-paint-state", paintState);
-   }
+} // end fillEmptyCell
 
-}
+// create html to fill the cell with grid img
+function generateGridImg(e){
+   let html = `<div><img src="imgs/${paintState}.png" class="grid-img ${paintState}-ongrid" onclick="removeImgItem(event)"/></div>`;
+   e.currentTarget.innerHTML = html;
+} // end generateGridImg
+
+
 
 // can drag select on grid
-function toggleSelectedIfDown(e) {
-   if (down) {
-      e.target.classList.add("selected");
-      e.target.setAttribute("data-paint-state", paintState);
-   }
-}
+// function toggleSelectedIfDown(e) {
+//    if (down) {
+//       // e.target.classList.add("selected");
+//       // e.target.setAttribute("data-paint-state", paintState);
+//       fillEmptyCell(e);
+//    }
+// }
 
 
 // end painting stuff
@@ -259,7 +251,7 @@ function toggleSelectedIfDown(e) {
 
 
 
-// generate code
+// CODE GENERATION
 function getTheCode() {
    let name = codeNameEl.value; // name of key
    if (name == '') name = 'noKey'; // if no name, give it a placeholder name
@@ -472,7 +464,7 @@ function getTheCode() {
 
 
 
-// util
+// UTILS
 ////////////////////
 function generateSpans() {
    // 27 , 12
