@@ -288,6 +288,10 @@ textarea {
   left: 100%;
   cursor: auto;
   user-select: text;
+  display: none;
+}
+.json-container.active {
+  display: block;
 }
 .json-container .close-this-json {
   display: inline-block;

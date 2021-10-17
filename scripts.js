@@ -185,11 +185,24 @@ function clearSelected() {
 
 function handleGridImgClick(e) {
    // e.stopPropagation();
-   // console.log("e", e);
-   // console.log("e.target", e.target);
-   // console.log("e.target.parentElement", e.target.parentElement);
-   // console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
-   // console.log("e.target.parentElement.classList", e.target.parentElement.classList);
+   console.log("e", e);
+   console.log("e.target", e.target);
+   console.log("e.target.previousElementSibling", e.target.previousElementSibling);
+   console.log("e.target.parentElement", e.target.parentElement);
+   console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
+   console.log("e.target.parentElement.classList", e.target.parentElement.classList);
+   console.log("---");
+
+   let thisJsonContainer = e.target.previousElementSibling;
+   console.log("classlist for thisJsonContainer");
+   console.log(thisJsonContainer.classList);
+
+   // if we are clicking on the json container, then we want to remove the selected class
+   if (thisJsonContainer.classList.contains("active")) {
+      thisJsonContainer.classList.remove("active");
+   } else {
+      thisJsonContainer.classList.add("active");
+   }
 
 // remove grid img
 
@@ -233,13 +246,14 @@ function fillEmptyCell(e) {
 
 // create html to fill the cell with grid img
 function generateGridImg(e){
+   console.log("dataset", e.target.getAttribute("data-paint-state")); // TODO: figure out why this is undefined
    let html = 
    `<div class="grid-img-container">
       <div class="json-container" onclick="handleJsonContainerClick(event)">
          <p class="close-this-json">x</p>
-         <p class="json-header">${e.target.dataset["paint-State"]}: ${e.target.dataset.x},${e.target.dataset.y}<p>
-         <p class="json-template">{\"direction\": \"left\", \"size\": 3, \"hope\": true, \"speed\": 2}</p>
-         <p><input type="text" class="json-flamehead-direction" value=""></p>
+         <p class="json-header">${e.target.dataset["paint-state"]}: ${e.target.dataset.x},${e.target.dataset.y}<p>
+         <p class="json-template">{\\"direction\\": \\"left\\", \\"size\\": 3, \\"hope\\": true, \\"speed\\": 2}</p>
+         <p><input type="text" class="json-input" value=""></p>
          <input type="button" class="update-this-json" value="Update">
       </div>
       <img src="imgs/${paintState}.png" class="grid-img ${paintState}-ongrid" onclick="handleGridImgClick(event)" draggable="false"/>
@@ -265,21 +279,41 @@ function generateGridImg(e){
 
 
 function handleJsonContainerClick(e){
-   let el = e.target;
+   
 
-   console.log("e", e);
-   console.log("e.currentTarget", e.currentTarget);
-   console.log("e.currentTarget.parentElement", e.currentTarget.parentElement);
-   console.log("e.currentTarget.parentElement.parentElement", e.currentTarget.parentElement.parentElement);
-   console.log("e.target", e.target);
-   console.log("e.target.parentElement", e.target.parentElement);
-   console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
-   console.log("---");
+   // console.log("e", e);
+   // console.log("e.currentTarget", e.currentTarget);
+   // console.log("e.currentTarget.parentElement", e.currentTarget.parentElement);
+   // console.log("e.currentTarget.parentElement.parentElement", e.currentTarget.parentElement.parentElement);
+   // console.log("e.target", e.target);
+   // console.log("e.target.parentElement", e.target.parentElement);
+   // console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
+   // console.log("---");
 
 
-   // if (el.classList.contains("close-this-json")){
+   let el = e.target; // selected element in the json-container
 
-}
+   let thisGridCell = e.currentTarget.parentElement.parentElement;
+   let thisJsonContainer = e.currentTarget;
+
+   if (el.classList.contains("close-this-json")){
+      thisJsonContainer.classList.remove("active");
+   }
+
+   if (el.classList.contains("update-this-json")){
+      let jsonInputValue = thisJsonContainer.querySelector(".json-input").value;
+      if (jsonInputValue == ""){
+         thisGridCell.removeAttribute("data-json");
+      }
+      else {
+         thisGridCell.setAttribute("data-json", jsonInputValue);
+      }
+
+   }
+   
+   console.log(thisJsonContainer);
+
+} // handleJsonContainerClick
 
 
 
@@ -390,46 +424,57 @@ function getTheCode() {
       // 2. add an emoji to the comment code
       // (special case for 2x2 imgs, using commentManager to place emojis in 2x2)
       if (box.classList.contains("selected")) {
+
+         let dataToPush = `"${boxX},${boxY}`; // will always push coords (note the missing end quote!)
+         if (box.dataset.json && box.dataset.json != "") {
+            dataToPush += `/${box.dataset.json}`; // if there is json, add it
+         }
+         dataToPush += `"`; // add the end quote
+
+
          if (box.dataset.paintState == "block") {
-            snakeKeysAndPosArrays.smallBlocks.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.smallBlocks.push(dataToPush);
             comment += `⬛`;
          }
          else if (box.dataset.paintState == "food") {
-            snakeKeysAndPosArrays.food.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.food.push(dataToPush);
             comment += `🍜`;
          }
          else if (box.dataset.paintState == "bigblock") {
-            snakeKeysAndPosArrays.bigBlocks.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.bigBlocks.push(dataToPush);
             comment += `🕞`;
             bigBlockCommentManager.addToArrays(boxX, boxY); // send coords, which will then later place emoji in x+1, y+1, and x+1 y+1 to make 2x2
          }
          else if (box.dataset.paintState == "door") {
-            snakeKeysAndPosArrays.doors.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.doors.push(dataToPush);
             comment += `🚪`;
          }
          else if (box.dataset.paintState == "key") {
-            snakeKeysAndPosArrays.keys.push(`"${boxX},${boxY}"`);
+            snakeKeysAndPosArrays.keys.push(dataToPush);
             comment += `🔑`;
          }
          else if (box.dataset.paintState == "brickblock") {
-            bomberKeysAndPosArrays.brickblock.push(`"${boxX},${boxY}"`);
+            bomberKeysAndPosArrays.brickblock.push(dataToPush);
             comment += `🕞`;
             bigBlockCommentManager.addToArrays(boxX, boxY); // same here
          }
          else if (box.dataset.paintState == "brickblocksmall") {
-            bomberKeysAndPosArrays.brickblocksmall.push(`"${boxX},${boxY}"`);
+            bomberKeysAndPosArrays.brickblocksmall.push(dataToPush);
             comment += `🧱`;
          }
          else if (box.dataset.paintState == "flameHead") {
-            bomberKeysAndPosArrays.flameHead.push(`"${boxX},${boxY}"`);
+            console.log("checking flameheader boxInfo...");
+            console.log(box);
+            console.log(box.dataset);
+            bomberKeysAndPosArrays.flameHead.push(dataToPush);
             comment += `🔥`;
          }
          else if (box.dataset.paintState == "bomber") {
-            bomberKeysAndPosArrays.bomber.push(`"${boxX},${boxY}"`);
+            bomberKeysAndPosArrays.bomber.push(dataToPush);
             comment += `💣`;
          }
          else if (box.dataset.paintState == "springBoard") {
-            bomberKeysAndPosArrays.springBoard.push(`"${boxX},${boxY}"`);
+            bomberKeysAndPosArrays.springBoard.push(dataToPush);
             comment += `➰`;
          }
 
