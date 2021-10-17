@@ -183,7 +183,7 @@ function clearSelected() {
 
 
 
-function removeImgItem(e) {
+function handleGridImgClick(e) {
    // e.stopPropagation();
    // console.log("e", e);
    // console.log("e.target", e.target);
@@ -191,12 +191,15 @@ function removeImgItem(e) {
    // console.log("e.target.parentElement.parentElement", e.target.parentElement.parentElement);
    // console.log("e.target.parentElement.classList", e.target.parentElement.classList);
 
-   
-   let gridCell = e.target.parentElement.parentElement; // actual grid cell
-   gridCell.classList.remove("selected");
-   gridCell.removeAttribute("data-paint-state");
-   let resetHTML = `${gridCell.dataset.x},${gridCell.dataset.y}`;
-   gridCell.innerHTML = resetHTML;
+// remove grid img
+
+   if (paintState == "eraser"){
+      let gridCell = e.target.parentElement.parentElement; // actual grid cell
+      gridCell.classList.remove("selected");
+      gridCell.removeAttribute("data-paint-state");
+      let resetHTML = `${gridCell.dataset.x},${gridCell.dataset.y}`;
+      gridCell.innerHTML = resetHTML;
+   }
 }
 
 
@@ -210,9 +213,12 @@ function fillEmptyCell(e) {
    if (el.classList.contains("selected")) return;
    // ignore right click to fill cells
    if (e.button == 2) return;
+   // ignore if eraser is selected
+   if (paintState == "eraser") return;
 
    console.log("el", el);
    console.log("e", e);
+
 
    // generate an html img string for the cell
    generateGridImg(e);
@@ -227,7 +233,7 @@ function fillEmptyCell(e) {
 
 // create html to fill the cell with grid img
 function generateGridImg(e){
-   let html = `<div><img src="imgs/${paintState}.png" class="grid-img ${paintState}-ongrid" onclick="removeImgItem(event)"/></div>`;
+   let html = `<div><img src="imgs/${paintState}.png" class="grid-img ${paintState}-ongrid" onclick="handleGridImgClick(event)"/></div>`;
    e.currentTarget.innerHTML = html;
 } // end generateGridImg
 

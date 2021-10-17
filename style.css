@@ -109,6 +109,20 @@ textarea {
   image-rendering: crisp-edges;
 }
 
+/* eraser */
+.object-selector.eraser {
+  background-color: white;
+  padding: 1rem;
+  vertical-align: top;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.object-selector.eraser img {
+  width: 20px;
+}
+
 /* readl grid */
 .grid {
   background-color: blanchedalmond;
