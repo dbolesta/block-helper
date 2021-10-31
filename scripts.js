@@ -24,6 +24,8 @@ let bomberKeysAndPosArrays = {
    "flameHead": [],
    "bomber": [],
    "springBoard": [],
+   "turret": [],
+   "torchBox": [],
 };
 
 
@@ -253,6 +255,7 @@ function generateGridImg(e) {
          <p class="close-this-json">x</p>
          <p class="json-header">${e.target.dataset["paint-state"]}: ${e.target.dataset.x},${e.target.dataset.y}<p>
          <p class="json-template">{\\"direction\\": \\"left\\", \\"size\\": 3, \\"hope\\": true, \\"speed\\": 2}</p>
+         <p class="json-template">{\\"numOfFlames\\": 1, \\"type\\": \\"steady\\", \\"startingDir\\": 1, \\"doubleSpace\\": false}</p>
          <p><input type="text" class="json-input" value=""></p>
          <input type="button" class="update-this-json" value="Update">
       </div>
@@ -262,6 +265,7 @@ function generateGridImg(e) {
 } // end generateGridImg
 // TODO: create other script file maybe to store different template examples for each object
 
+// {\\"numOfFlames\\": 1 \\"type\\": \\"steady\\", \\"startingDir\\": 1, \\"doubleSpace\\": false}
 
 // can drag select on grid
 // function toggleSelectedIfDown(e) {
@@ -464,9 +468,6 @@ function getTheCode() {
             comment += `🧱`;
          }
          else if (box.dataset.paintState == "flameHead") {
-            console.log("checking flameheader boxInfo...");
-            console.log(box);
-            console.log(box.dataset);
             bomberKeysAndPosArrays.flameHead.push(dataToPush);
             comment += `🔥`;
          }
@@ -477,6 +478,14 @@ function getTheCode() {
          else if (box.dataset.paintState == "springBoard") {
             bomberKeysAndPosArrays.springBoard.push(dataToPush);
             comment += `➰`;
+         }
+         else if (box.dataset.paintState == "turret") {
+            bomberKeysAndPosArrays.turret.push(dataToPush);
+            comment += `🔫`;
+         }
+         else if (box.dataset.paintState == "torchBox") {
+            bomberKeysAndPosArrays.torchBox.push(dataToPush);
+            comment += `📦`;
          }
 
       } else {
