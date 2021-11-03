@@ -327,7 +327,7 @@ function getTheCode() {
    let name = codeNameEl.value; // name of key
    if (name == '') name = 'noKey'; // if no name, give it a placeholder name
 
-   let comment = `//${name}\n//`; // starting the comment string
+   let comment = `\t\t//${name}\n\t\t//`; // starting the comment string (add tabs to line up with the code)
    let code = `{"${name}", new Dictionary<string, List<string>>\n\t\t\t{`; // start the code string
 
    // arrays to store string coords of each object (ex: "1,2")
@@ -420,7 +420,7 @@ function getTheCode() {
       // if y has changed, we are on a new row. set it and start new line in comment
       if (currentRow != box.dataset.y) {
          currentRow = box.dataset.y
-         comment += `\n//`;
+         comment += `\n\t\t//`; // add tabs to line up with the code
       }
 
       // check if box is selected with something. if so,
@@ -552,7 +552,7 @@ function getTheCode() {
 
 
    console.log(comment);
-   codeBoxEl.value = `${comment}\n\n${code}`;
+   codeBoxEl.value = `${code}\n\n${comment}`;
 }
 
 
