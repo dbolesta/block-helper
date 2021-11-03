@@ -26,6 +26,7 @@ let bomberKeysAndPosArrays = {
    "springBoard": [],
    "turret": [],
    "torchBox": [],
+   "bomberButton": [],
 };
 
 
@@ -486,6 +487,10 @@ function getTheCode() {
          else if (box.dataset.paintState == "torchBox") {
             bomberKeysAndPosArrays.torchBox.push(dataToPush);
             comment += `📦`;
+         }
+         else if (box.dataset.paintState == "bomberButton") {
+            bomberKeysAndPosArrays.bomberButton.push(dataToPush);
+            comment += `🔘`;
          }
 
       } else {

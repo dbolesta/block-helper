@@ -209,6 +209,10 @@ textarea {
 }
 
 /* hovering */
+.grid-container span:hover {
+  background-color: rgba(67, 82, 61, 0.3);
+  color: rgba(255, 255, 255, 0.4);
+}
 .grid-container[data-paint-state='block'] span:hover {
   background-color: rgba(67, 82, 61, 0.3);
   color: rgba(255, 255, 255, 0.4);
@@ -393,6 +397,11 @@ textarea {
   left: 0;
 }
 .torchBox-ongrid {
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.bomberButton-ongrid {
   height: 100%;
   top: 0;
   left: 0;
