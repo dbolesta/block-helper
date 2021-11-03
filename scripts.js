@@ -501,37 +501,46 @@ function getTheCode() {
       }
    }); // end boxes loop
 
+   // only loop whatever character is selected
+   if (selectedCharacter == "snake") {
+      // loop through each master key/array reference and add to code if needed
+      for (const [key, value] of Object.entries(snakeKeysAndPosArrays)) {
+         if (snakeKeysAndPosArrays[key].length > 0){
+            code += `{ "${key}", new List<string> {`;
+            for (let i = 0; i < snakeKeysAndPosArrays[key].length; i++) {
+               code += snakeKeysAndPosArrays[key][i];
 
-   // loop through each master key/array reference and add to code if needed
-   for (const [key, value] of Object.entries(snakeKeysAndPosArrays)) {
-      code += `{ "${key}", new List<string> {`;
-      for (let i = 0; i < snakeKeysAndPosArrays[key].length; i++) {
-         code += snakeKeysAndPosArrays[key][i];
+               // no comma on last one
+               if (i != snakeKeysAndPosArrays[key].length - 1) {
+                  code += ', ';
+               }
+            }
+            code += `}\n\t\t\t},`; // close it up
 
-         // no comma on last one
-         if (i != snakeKeysAndPosArrays[key].length - 1) {
-            code += ', ';
+            code += `\n\t\t\t`; // neatly space between inner dictionaries
          }
-      }
-      code += `}\n\t\t\t},`; // close it up
+      } // end loop
+   } // end if snake
 
-      code += `\n\t\t\t`; // neatly space between inner dictionaries
-   } // end loop
+   // only loop whatever character is selected
+   if (selectedCharacter == "bomber"){
+      for (const [key, value] of Object.entries(bomberKeysAndPosArrays)) {
+         if (bomberKeysAndPosArrays[key].length > 0){
+            code += `{ "${key}", new List<string> {`;
+            for (let i = 0; i < bomberKeysAndPosArrays[key].length; i++) {
+               code += bomberKeysAndPosArrays[key][i];
 
-   for (const [key, value] of Object.entries(bomberKeysAndPosArrays)) {
-      code += `{ "${key}", new List<string> {`;
-      for (let i = 0; i < bomberKeysAndPosArrays[key].length; i++) {
-         code += bomberKeysAndPosArrays[key][i];
+               // no comma on last one
+               if (i != bomberKeysAndPosArrays[key].length - 1) {
+                  code += ', ';
+               }
+            }
+            code += `}\n\t\t\t},`; // close it up
 
-         // no comma on last one
-         if (i != bomberKeysAndPosArrays[key].length - 1) {
-            code += ', ';
+            code += `\n\t\t\t`; // neatly space between inner dictionaries
          }
-      }
-      code += `}\n\t\t\t},`; // close it up
-
-      code += `\n\t\t\t`; // neatly space between inner dictionaries
-   } // end loop
+      } // end loop
+   } // end if bomber
 
 
 
