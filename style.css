@@ -406,3 +406,8 @@ textarea {
   top: 0;
   left: 0;
 }
+.bomberDoor-ongrid {
+  height: 400%;
+  top: -100%;
+  left: 0;
+}
